@@ -23,7 +23,7 @@ Git
 Sublime Text3
 
 安装配置HexoNode.js和Git安装成功后就可">
-<meta property="og:updated_time" content="2016-06-06T14:23:41.504Z">
+<meta property="og:updated_time" content="2016-06-06T14:31:52.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hello World">
 <meta name="twitter:description" content="&amp;#160; &amp;#160; &amp;#160; &amp;#160;欢迎来到我的博客！早就听说Hexo的鼎鼎大名，但是没有找到合适的连续时间，一直没能重新折腾github博客。今天跟随着先驱们的指引，经过惨不忍睹的折腾，两个多小时后终于跑了起来。下面简单介绍我建站的一些粗浅的经验，欢迎指正~~!
@@ -113,12 +113,15 @@ Sublime Text3
 <p>好了，到此我们完成了对本地Hexo的安装和配置。</p>
 <h2 id="发布文章"><a href="#发布文章" class="headerlink" title="发布文章"></a>发布文章</h2><h3 id="配置github仓库"><a href="#配置github仓库" class="headerlink" title="配置github仓库"></a>配置github仓库</h3><p>新建一个仓库：Minwell1992.github.io。其中后面两个不能改变，能自由发挥的就是前面的花名，起一个像我这么酷的名字吧~:)<br>配置SSH。在此不再赘述。如果你对关于git和github的相关知识还不是很熟悉，推荐去<a href="http://www.liaoxuefeng.com/" target="_blank" rel="external">廖雪峰大大的博客</a>来系统的学习一下，个人觉得非常非常的棒！</p>
 <h3 id="配置本地Hexo"><a href="#配置本地Hexo" class="headerlink" title="配置本地Hexo"></a>配置本地Hexo</h3><p>打开Hexo目录下的_config.yml，拉倒最下面<br>配置为这样子,只需要把我的名字改为你的github用户名就可以了。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:Minwell1992/Minwell1992.github.io.git</span><br></pre></td></tr></table></figure></p>
-<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>文章写好后直接执行命令即可发布文章：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hexo</span> d -g</span><br></pre></td></tr></table></figure></p>
+<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>文章写好后直接执行命令即可发布文章：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure></p>
 <p>我在发布的时候出现了错误：</p>
 <pre><code>ERROR Deployer not found: git
 </code></pre><p>找到了相关资料，执行这句话就ok：</p>
 <pre><code>npm install hexo-deployer-git --save
 </code></pre><h2 id="Succeed"><a href="#Succeed" class="headerlink" title="Succeed!"></a>Succeed!</h2><p>好啦！至此一个博客已经粗略的建立起来。虽然看起来挺简陋的，但万事开头难嘛，咱们把框架搭起来了，剩下的就是修修补补的小事了。小事包括：上传图片、更改域名、增加评论分享功能···发挥你的聪明才智，加油咯~~</p>
+<blockquote>
+<p>参考资料：<br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo官网</a><br><a href="http://vimersu.win/blog/2014/03/03/use-hexo-blog/" target="_blank" rel="external">使用Hexo搭建个人博客</a><br><a href="http://ibruce.info/2013/11/22/hexo-your-blog/" target="_blank" rel="external">hexo你的博客</a><br><a href="http://blog.csdn.net/u011116672/article/details/51160742" target="_blank" rel="external">Hexo系列1：从零开始搭建hexo博客</a><br><a href="http://lutaf.com/markdown-simple-usage.htm" target="_blank" rel="external">markdown 简明语法</a></p>
+</blockquote>
 
       
     </div>
