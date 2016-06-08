@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java求绝对值的一个小bug | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前一段时间泡博客的时候看到了一个有趣的现象，在此记录下来。eclipse中输入下面的语句，猜猜结果会是什么？1System.out.println(Math.abs(-2147483648));
+出人意料！结果还是-2147483648！这是为什么呢？那就要从绝对值源码来探索了。Math.abs()的实现如下：123public static int abs(int a) &amp;#123;	retur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java求绝对值的一个小bug">
+<meta property="og:url" content="http://yoursite.com/2016/06/08/java求绝对值的一个小bug/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前一段时间泡博客的时候看到了一个有趣的现象，在此记录下来。eclipse中输入下面的语句，猜猜结果会是什么？1System.out.println(Math.abs(-2147483648));
+出人意料！结果还是-2147483648！这是为什么呢？那就要从绝对值源码来探索了。Math.abs()的实现如下：123public static int abs(int a) &amp;#123;	retur">
+<meta property="og:updated_time" content="2016-06-08T06:39:57.709Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java求绝对值的一个小bug">
+<meta name="twitter:description" content="前一段时间泡博客的时候看到了一个有趣的现象，在此记录下来。eclipse中输入下面的语句，猜猜结果会是什么？1System.out.println(Math.abs(-2147483648));
+出人意料！结果还是-2147483648！这是为什么呢？那就要从绝对值源码来探索了。Math.abs()的实现如下：123public static int abs(int a) &amp;#123;	retur">
+  
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-home-icon" class="nav-icon" href="/"></a>
+        
+          <a id="nav-archives-icon" class="nav-icon" href="/archives"></a>
+        
+          <a id="nav-about-icon" class="nav-icon" href="/about"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java求绝对值的一个小bug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java求绝对值的一个小bug
+    </h1>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2016-06-08T02:58:52.000Z" itemprop="datePublished">06-08-2016</time>
+    
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一段时间泡博客的时候看到了一个有趣的现象，在此记录下来。<br>eclipse中输入下面的语句，猜猜结果会是什么？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(Math.abs(-<span class="number">2147483648</span>));</span><br></pre></td></tr></table></figure></p>
+<p>出人意料！结果还是-2147483648！<br>这是为什么呢？那就要从绝对值源码来探索了。Math.abs()的实现如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">abs</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> (a &lt; <span class="number">0</span>) ? -a : a;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出，仅仅是最简单的判断取反。那对-2147483648意味着什么呢？<br>-2147483648其实是Integer.MIN_VALUE，即int能表示的最小值，二进制表示为1000,0000,0000,0000,0000,0000,0000,0000。而取反操作其实就是反码加1，而这个值的反码为111…，加1后又变为其本身。这个问题的本质原因就是int类型的大小限制，与sun公司没有考虑到这一个下界所共同导致的。<br>那么怎样解决这个问题呢？因为int类型的限制，根本就不可能表示2147483648这个数字，将这个数字转换为long类型才可以正常输出。<br>那么到达long类型的上界又怎么办呢？此时可以借助BigInteger这个类来实现我们的需求————而BigInteger类型是解决大数问题最好选择。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/08/java求绝对值的一个小bug/" data-id="cip6i105x0002wcjefy9dbwlj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/06/06/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      <a href="https://github.com/steven5538/hexo-theme-athena" target="_blank">Athena</a> by <a href="http://steven5538.tw" target="_blank">Steven5538</a> | Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
