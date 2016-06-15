@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java多线程编程(二) | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。
+wait()和notify()wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须  要获得该对象的对象级别锁  ——  只能在同步方法或同步代码块  调用此方法。执行方法后，当前线程释放锁。如果调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程编程(二)">
+<meta property="og:url" content="http://yoursite.com/2016/06/15/Java多线程编程-二/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。
+wait()和notify()wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须  要获得该对象的对象级别锁  ——  只能在同步方法或同步代码块  调用此方法。执行方法后，当前线程释放锁。如果调">
+<meta property="og:updated_time" content="2016-06-15T15:06:41.881Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程编程(二)">
+<meta name="twitter:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。
+wait()和notify()wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须  要获得该对象的对象级别锁  ——  只能在同步方法或同步代码块  调用此方法。执行方法后，当前线程释放锁。如果调">
+  
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-home-icon" class="nav-icon" href="/"></a>
+        
+          <a id="nav-archives-icon" class="nav-icon" href="/archives"></a>
+        
+          <a id="nav-about-icon" class="nav-icon" href="/about"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java多线程编程-二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java多线程编程(二)
+    </h1>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2016-06-15T07:44:20.000Z" itemprop="datePublished">06-15-2016</time>
+    
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h1><p>使用线程的场景很多，线程间通信是线程互相协作的必要技术。</p>
+<h2 id="wait-和notify"><a href="#wait-和notify" class="headerlink" title="wait()和notify()"></a>wait()和notify()</h2><p>wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须 <strong> 要获得该对象的对象级别锁 </strong> —— <strong> 只能在同步方法或同步代码块 </strong> 调用此方法。执行方法后，当前线程释放锁。如果调用wait()时没有得到合适的锁，就会抛出IllegalMonitorStateException(RuntimeException)异常。<br>notify()方法作用是 <strong> 对象 </strong> 通知等待的线程继续运行。若有多个线程等待，线程规划器随机挑选一个wait线程唤醒。与wait()类似，也必须持有对象的锁。需要注意的是，notify()方法执行后并未立刻释放锁，而且等待线程也不是立即被唤醒，而是在当前线程执行完毕，也就是退出synchronized代码块后当前线程才会释放锁，wait线程才可以获取锁。<br>总而言之，wait使线程停止运行，notify使停止的线程继续运行。<br>一个简单的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">_3SimpleWaitNotify</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		Object o = <span class="keyword">new</span> Object();</span><br><span class="line">		Thread a = <span class="keyword">new</span> MyThreadA(o);</span><br><span class="line">		a.start();</span><br><span class="line">		Thread b = <span class="keyword">new</span> MyThreadB(o);</span><br><span class="line">		Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">		b.start();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> Object o;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">MyThreadA</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.o = o;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">synchronized</span> (o) &#123;</span><br><span class="line">					System.out.println(<span class="string">"start wait time is "</span> + System.currentTimeMillis());</span><br><span class="line">					o.wait();</span><br><span class="line">					System.out.println(<span class="string">"end wait time is "</span> + System.currentTimeMillis());</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadB</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> Object o;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">MyThreadB</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.o = o;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">synchronized</span> (o) &#123;</span><br><span class="line">				System.out.println(<span class="string">"start notify time is "</span> + System.currentTimeMillis());</span><br><span class="line">				o.notify();</span><br><span class="line">				System.out.println(<span class="string">"end notify time is "</span> + System.currentTimeMillis());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="interrupt-和wait"><a href="#interrupt-和wait" class="headerlink" title="interrupt()和wait()"></a>interrupt()和wait()</h2><p>当线程正在等待，调用线程对象的interrupt()方法时会出现InterruptedException。<br>总结一下线程释放锁的3种情况：</p>
+<ol>
+<li>执行完同步代码块就会释放对象的锁；</li>
+<li>执行代码块时遇到异常而线程终止，也会释放锁；</li>
+<li>执行wait()方法，线程释放锁后进入线程等待池等待被唤醒。</li>
+</ol>
+<h2 id="wait-long-timeout-方法"><a href="#wait-long-timeout-方法" class="headerlink" title="wait(long timeout)方法"></a>wait(long timeout)方法</h2><p>等待timeout毫秒时间内是否有线程对锁进行唤醒，超时自动唤醒。<br>观察源码，wait()其实就是wait(0)。</p>
+<h2 id="生产者消费者"><a href="#生产者消费者" class="headerlink" title="生产者消费者"></a>生产者消费者</h2><p>生产者消费者是经典多线程问题。如果处理不好生产者和消费者的关系，很容易使系统进入假死状态，即两者都在无限等待，谁也不能执行。可以灵活的使用操作栈来执行业务逻辑。使用wait()和notify()方法可以写出合适的例子。但是这种方式对编程水平要求很高，需要避免假死。可以使用并发包里合适的类来编程。</p>
+<h2 id="管道线程通信"><a href="#管道线程通信" class="headerlink" title="管道线程通信"></a>管道线程通信</h2><p>管道流(pipeStream)是一种特殊的流，用于在不同线程间传送数据。一个线程发送输入管道，一个线程在管道另一端接受数据。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/15/Java多线程编程-二/" data-id="ciph0ise30000wkje8crw8vvn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/06/13/Java多线程编程-一/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java多线程编程(一)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      <a href="https://github.com/steven5538/hexo-theme-athena" target="_blank">Athena</a> by <a href="http://steven5538.tw" target="_blank">Steven5538</a> | Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
