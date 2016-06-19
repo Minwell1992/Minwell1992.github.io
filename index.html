@@ -71,11 +71,50 @@
   <div class="article-inner">
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="定时器Timer"><a href="#定时器Timer" class="headerlink" title="定时器Timer"></a>定时器Timer</h1><p>定时/计划功能在移动开发领域使用较多，而这个功能主要就是由Timer对象实现的。它在内部使用多线程方式进行处理。下面就来看Timer是如何工作的。</p>
+<h2 id="定时器Timer的使用"><a href="#定时器Timer的使用" class="headerlink" title="定时器Timer的使用"></a>定时器Timer的使用</h2><p>Timer是一个调度器，里面调度的方法TimeTask由自己实现，一个简单的例子如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Timer timer = <span class="keyword">new</span> Timer();  </span><br><span class="line">timer.schedule(<span class="keyword">new</span> TimerTask() &#123;  </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">            System.out.println(<span class="string">"abc"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">&#125;, <span class="number">10000</span> , <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码意思是在10s后每隔1s执行一次run()方法。</p>
+<h3 id="Timer的构造方法："><a href="#Timer的构造方法：" class="headerlink" title="Timer的构造方法："></a>Timer的构造方法：</h3><p>从源码的角度来学习几个构造方法。</p>
+<ol>
+<li>构造方法1：无参构造方法：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Timer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="string">"Timer-"</span> + serialNumber());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>内部实际上调用Timer(String name)这个构造方法。</p>
+<ol>
+<li><p>构造方法2：设置守护线程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Timer</span><span class="params">(<span class="keyword">boolean</span> isDaemon)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="string">"Timer-"</span> + serialNumber(), isDaemon);</span><br><span class="line">&#125;</span><br><span class="line">如果设置为守护线程，则主线程结束后，Timer自动结束，无须使用cancel来结束。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构造方法3：带参数String的构造方法，传入Timer线程的名字</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Timer</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    thread.setName(name);</span><br><span class="line">    thread.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这个构造方法有两个功能，一个是设置线程名字，另一个是启动线程。thread这个变量的定义是：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> TimerThread thread = <span class="keyword">new</span> TimerThread(queue);</span><br></pre></td></tr></table></figure></p>
+<p>而TimerThread这个类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimerThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p>从以上构造方法可知，Timer内部包装了一个线程，独立于外部线程，进行调度以及管理。TimerThread类是default类型，基本上是Timer类专用的类。</p>
+<h3 id="Timer常用方法"><a href="#Timer常用方法" class="headerlink" title="Timer常用方法"></a>Timer常用方法</h3><p>下面来看一看Timer内常用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(TimerTask task, <span class="keyword">long</span> delay)</span>	<span class="comment">//经过delay ms后进行调度一次task</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(TimerTask task, Date time)</span>		<span class="comment">//在time时间点调度一次task</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(TimerTask task, <span class="keyword">long</span> delay, <span class="keyword">long</span> period)</span><span class="comment">//在time时间点以period的时间间隔调度task</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(TimerTask task, Date firstTime, <span class="keyword">long</span> period)</span><span class="comment">//经过delay ms后以period的时间间隔调度task</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduleAtFixedRate</span><span class="params">(TimerTask task, <span class="keyword">long</span> delay, <span class="keyword">long</span> period)</span><span class="comment">//与schedule类似，后文介绍其区别</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduleAtFixedRate</span><span class="params">(TimerTask task, Date firstTime, <span class="keyword">long</span> period)</span><span class="comment">//方法同上</span></span></span><br></pre></td></tr></table></figure></p>
+<p>schedule的源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(TimerTask task, <span class="keyword">long</span> delay)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (delay &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Negative delay."</span>);</span><br><span class="line">    sched(task, System.currentTimeMillis()+delay, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里调用了sched这个private方法，将task传入。看传入的形参列表可以发现，第二个参数是时间，那么传入Date时直接把这个Date传入就可以了。<br>下面来看一看重载方法schedule(TimerTask task, long delay, long period)：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(TimerTask task, <span class="keyword">long</span> delay, <span class="keyword">long</span> period)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (delay &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Negative delay."</span>);</span><br><span class="line">    <span class="keyword">if</span> (period &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Non-positive period."</span>);</span><br><span class="line">    sched(task, System.currentTimeMillis()+delay, -period);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>发现这个方法其实也是对sched方法的包装。第三个参数-period就是重复的时间。<br>再来看scheduleAtFixedRate这个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduleAtFixedRate</span><span class="params">(TimerTask task, <span class="keyword">long</span> delay, <span class="keyword">long</span> period)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (delay &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Negative delay."</span>);</span><br><span class="line">    <span class="keyword">if</span> (period &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Non-positive period."</span>);</span><br><span class="line">    sched(task, System.currentTimeMillis()+delay, period);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>发现与上一个方法基本相同，只有period的符号不同。可能是因为不愿意增加一个参数，直接用period的符号来表示那个方法。<br>下面来讨论Timer类的 <strong> 核心：sched方法 </strong> ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sched</span><span class="params">(TimerTask task, <span class="keyword">long</span> time, <span class="keyword">long</span> period)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (time &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal execution time."</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Constrain value of period sufficiently to prevent numeric</span></span><br><span class="line">    <span class="comment">// overflow while still being effectively infinitely large.</span></span><br><span class="line">    <span class="keyword">if</span> (Math.abs(period) &gt; (Long.MAX_VALUE &gt;&gt; <span class="number">1</span>))</span><br><span class="line">        period &gt;&gt;= <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">synchronized</span>(queue) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!thread.newTasksMayBeScheduled)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Timer already cancelled."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span>(task.lock) &#123;</span><br><span class="line">            <span class="keyword">if</span> (task.state != TimerTask.VIRGIN)</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(</span><br><span class="line">                    <span class="string">"Task already scheduled or cancelled"</span>);</span><br><span class="line">            task.nextExecutionTime = time;</span><br><span class="line">            task.period = period;</span><br><span class="line">            task.state = TimerTask.SCHEDULED;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        queue.add(task);</span><br><span class="line">        <span class="keyword">if</span> (queue.getMin() == task)</span><br><span class="line">            queue.notify();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个操作中，对queue做了同步，可以认为是线程安全的。从以上源码可以看出，schd主要任务是把nextExecutionTime、period、state这三个参数传入task中，并将task添加到queue中，并对queue做一次notify()操作。<br>简而言之，就是将参数传入task并将其放入queue中。我们现在开始看看queue的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> TaskQueue queue = <span class="keyword">new</span> TaskQueue();</span><br></pre></td></tr></table></figure></p>
+<p>继续来看一看TaskQueue()的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaskQueue</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> TimerTask[] queue = <span class="keyword">new</span> TimerTask[<span class="number">128</span>];  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>; </span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></p>
+<p>可见，TaskQueue的结构非常简单，内部是一个数组，只要task的数目低于128是不会扩容的。其中还有很多方法，提供了类似于ArrayList的方法来管理，内部有很多排序之类的处理。<br>好了，此时可以得到这样的关系：一个Timer内部包装了“一个Thread”和“一个Task”队列，这个队列按照一定的方式将任务排队处理，包含的线程在Timer的构造方法调用时被启动，这个Thread的run方法无限循环这个Task队列，若队列为空且没发生cancel操作，此时会一直等待，如果等待完成后，队列还是为空，则认为发生了cancel从而跳出死循环，结束任务；循环中如果发现任务需要执行的时间小于系统时间，则需要执行，那么根据任务的时间片从新计算下次执行时间，若时间片为0代表只执行一次，则直接移除队列即可。</p>
+<h2 id="线程池扩展"><a href="#线程池扩展" class="headerlink" title="线程池扩展"></a>线程池扩展</h2><ul>
+<li>Executors.newScheduledThreadPool<br>来完成对调度队列中的线程池的处理，内部通过new ScheduledThreadPoolExecutor来创建线程池的Executor的创建，当然也可以调用：<br>*Executors.unconfigurableScheduledExecutorService<br>方法来创建一个DelegatedScheduledExecutorService其实这个类就是包装了下下scheduleExecutor，也就是这只是一个壳，英文理解就是被委派的意思，被托管的意思。</li>
+</ul>
+<blockquote>
+<p>参考<a href="http://blog.csdn.net/xieyuooo/article/details/8607220" target="_blank" rel="external">Timer与TimerTask的真正原理&amp;使用介绍</a></p>
+</blockquote>
+<h1 id="线程的其他知识"><a href="#线程的其他知识" class="headerlink" title="线程的其他知识"></a>线程的其他知识</h1><p>按照书上第七章来进行补漏。</p>
+<h2 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h2><p>线程的状态储存在Thread的State枚举内部类当中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> State &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Thread state for a thread which has not yet started.</span><br><span class="line">     */</span></span><br><span class="line">    NEW,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Thread state for a runnable thread.  A thread in the runnable</span><br><span class="line">     * state is executing in the Java virtual machine but it may</span><br><span class="line">     * be waiting for other resources from the operating system</span><br><span class="line">     * such as processor.</span><br><span class="line">     */</span></span><br><span class="line">    RUNNABLE,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Thread state for a thread blocked waiting for a monitor lock.</span><br><span class="line">     * A thread in the blocked state is waiting for a monitor lock</span><br><span class="line">     * to enter a synchronized block/method or</span><br><span class="line">     * reenter a synchronized block/method after calling</span><br><span class="line">     */</span></span><br><span class="line">    BLOCKED,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Thread state for a waiting thread.</span><br><span class="line">     * A thread is in the waiting state due to calling one of the</span><br><span class="line">     * following methods:</span><br><span class="line">     * </span><br><span class="line">     * &lt;p&gt;A thread in the waiting state is waiting for another thread to</span><br><span class="line">     * perform a particular action.</span><br><span class="line">     *</span><br><span class="line">     * For example, a thread that has called &lt;tt&gt;Object.wait()&lt;/tt&gt;</span><br><span class="line">     * on an object is waiting for another thread to call</span><br><span class="line">     * &lt;tt&gt;Object.notify()&lt;/tt&gt; or &lt;tt&gt;Object.notifyAll()&lt;/tt&gt; on</span><br><span class="line">     * that object. A thread that has called &lt;tt&gt;Thread.join()&lt;/tt&gt;</span><br><span class="line">     * is waiting for a specified thread to terminate.</span><br><span class="line">     */</span></span><br><span class="line">    WAITING,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Thread state for a waiting thread with a specified waiting time.</span><br><span class="line">     * A thread is in the timed waiting state due to calling one of</span><br><span class="line">     * the following methods with a specified positive waiting time:</span><br><span class="line">     */</span></span><br><span class="line">    TIMED_WAITING,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Thread state for a terminated thread.</span><br><span class="line">     * The thread has completed execution.</span><br><span class="line">     */</span></span><br><span class="line">    TERMINATED;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>java的线程状态与经典的线程状态略有不同。经典线程状态是创建、就绪、运行、阻塞、挂起、终止。java线程模型是这样的：NEW是新建的状态；RUNNABLE状态包括了就绪和运行态，这种状态下线程即使暂停也是系统的原因；BLOCKED表示阻塞态，等待其他线程释放锁；WAITING指的是当前线程已经持有锁，调用wait()方法，等待其他线程将其唤醒；TIMED_WAITING是有时间限制的等待，即调用wait(long)方法后线程的状态；TERMINATED则表示线程的终止状态。</p>
+<h2 id="进入不同的线程状态"><a href="#进入不同的线程状态" class="headerlink" title="进入不同的线程状态"></a>进入不同的线程状态</h2><h3 id="NEW"><a href="#NEW" class="headerlink" title="NEW"></a>NEW</h3><p>新建线程在启动之前的状态就是NEW：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">newState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = <span class="keyword">new</span> Thread();</span><br><span class="line">    System.out.println(t.getState());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="RUNNABLE"><a href="#RUNNABLE" class="headerlink" title="RUNNABLE"></a>RUNNABLE</h3><p>线程启动，未停止的状态就是RUNNABLE：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">runnableState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    t.start();</span><br><span class="line">    System.out.println(t.getState());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="BLOCKED"><a href="#BLOCKED" class="headerlink" title="BLOCKED"></a>BLOCKED</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/17/Java多线程编程-三/" data-id="cipjqb7x50000y4jerx24fgv3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/17/Java多线程编程-三/" data-id="cipl9s2xy00027wje78r7i8wo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -192,7 +231,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/15/Java多线程编程-二/" data-id="cipjqb7xh0002y4jejycjrre2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/15/Java多线程编程-二/" data-id="cipl9s2zj00077wjecy1rvrvf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,7 +351,7 @@ public static boolean interrupted() {}
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/13/Java多线程编程-一/" data-id="cipjqb7xo0003y4jeors5keeu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/13/Java多线程编程-一/" data-id="cipl9s2zf00057wje3qsb4ui6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -347,7 +386,7 @@ public static boolean interrupted() {}
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/08/java求绝对值的一个小bug/" data-id="cipjqb7xq0004y4je65kgjzj4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/08/java求绝对值的一个小bug/" data-id="cipl9s2zh00067wjengv5te69" class="article-share-link">Share</a>
       
       
     </footer>
@@ -410,7 +449,72 @@ public static boolean interrupted() {}
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/06/hello-world/" data-id="cipjqb7xu0005y4je53dk109r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/06/hello-world/" data-id="cipl9s2xj00007wjepbkrsahu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-我的书单" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2016/06/03/我的书单/">我的书单</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2016-06-03T12:16:56.000Z" itemprop="datePublished">06-03-2016</time>
+    
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在此列举一下我看过的书，记录一下经验之谈~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/03/我的书单/" data-id="cipl9s2y600047wjefpovsp7n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-关于这个博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2016/05/18/关于这个博客/">关于这个博客</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2016-05-18T12:16:49.000Z" itemprop="datePublished">05-18-2016</time>
+    
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="为什么要建立这个博客？"><a href="#为什么要建立这个博客？" class="headerlink" title="为什么要建立这个博客？"></a>为什么要建立这个博客？</h2><p>说实话，我本来是没有记录博客的习惯的。从小到大养成的习惯是记笔记，感觉只有用手一笔一划把知识写下来才会印象深刻，才能真的记录到脑袋里。以前学习的东西理论性比较强，也是非常适合来记笔记。但学习编程后，沿用以前的学习习惯，发现实在是太费事了，概念奇多无比，代码也是非常之多。用笔记下来难度太大，事倍功半。<br>在网上看到了很多大牛的博客，内容精辟，发人深省令人非常佩服。既方便记录自己的经历，也方便了后来者，非常符合互联网精神。<br>在以上两种原因的驱动下，我也萌生了整一个博客的想法，既充当自己的笔记本，又可以将知识“序列化”，方便自己以及其他人来掌握。<br>然后利用Hexo来搭建了博客。在这个过程中，我重温了git的相关用法，然后自己用一点点的前端知识做了相关改进，收益良多。非常感谢github能给广大程序工作者这样一个优秀的平台。</p>
+<h2 id="博客的内容"><a href="#博客的内容" class="headerlink" title="博客的内容"></a>博客的内容</h2><p>研究生期间主要从事非晶丝（非晶态金属丝，具有优秀的磁性性能GMI）的阻抗测量分析工作。但是觉得这个东西没啥前途，没啥兴趣。反而对编程很感兴趣，因此就开始自学java，扩充技能树，为以后的学习工作打下基础。<br>由于博客并不是随着我的学习的开始而开始的，因此内容可能没有一个从很基础到慢慢进阶的过程。主要是按照我自己的现有学习进度向后推进的。如果有人看到我的博客，那么我深感荣幸，欢迎与<a href="mooner1992@126.com">我</a>进行讨论~<br>上一阶段学习了JVM的相关知识，记录了一些笔记，也不向这里重复发送了。<br>现阶段我主要的学习目标是并发编程，想跟着书敲代码，顺便学习学习源码，掌握其内部结构。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/18/关于这个博客/" data-id="cipl9s2y300037wjeuvcxdqmj" class="article-share-link">Share</a>
       
       
     </footer>
