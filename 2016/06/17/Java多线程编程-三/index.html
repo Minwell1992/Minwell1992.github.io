@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="定时器Timer定时/计划功能在移动开发领域使用较多，而这个功能主要就是由Timer对象实现的。它在内部使用多线程方式进行处理。下面就来看Timer是如何工作的。
 定时器Timer的使用Timer是一个调度器，里面调度的方法TimeTask由自己实现，一个简单的例子如下：123456Timer timer = new Timer();  timer.schedule(new TimerTask()">
-<meta property="og:updated_time" content="2016-06-19T12:19:23.525Z">
+<meta property="og:updated_time" content="2016-06-21T01:37:43.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程编程(三)">
 <meta name="twitter:description" content="定时器Timer定时/计划功能在移动开发领域使用较多，而这个功能主要就是由Timer对象实现的。它在内部使用多线程方式进行处理。下面就来看Timer是如何工作的。
@@ -103,6 +103,7 @@
 <p>在这个操作中，对queue做了同步，可以认为是线程安全的。从以上源码可以看出，schd主要任务是把nextExecutionTime、period、state这三个参数传入task中，并将task添加到queue中，并对queue做一次notify()操作。<br>简而言之，就是将参数传入task并将其放入queue中。我们现在开始看看queue的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> TaskQueue queue = <span class="keyword">new</span> TaskQueue();</span><br></pre></td></tr></table></figure></p>
 <p>继续来看一看TaskQueue()的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaskQueue</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> TimerTask[] queue = <span class="keyword">new</span> TimerTask[<span class="number">128</span>];  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>; </span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></p>
 <p>可见，TaskQueue的结构非常简单，内部是一个数组，只要task的数目低于128是不会扩容的。其中还有很多方法，提供了类似于ArrayList的方法来管理，内部有很多排序之类的处理。<br>好了，此时可以得到这样的关系：一个Timer内部包装了“一个Thread”和“一个Task”队列，这个队列按照一定的方式将任务排队处理，包含的线程在Timer的构造方法调用时被启动，这个Thread的run方法无限循环这个Task队列，若队列为空且没发生cancel操作，此时会一直等待，如果等待完成后，队列还是为空，则认为发生了cancel从而跳出死循环，结束任务；循环中如果发现任务需要执行的时间小于系统时间，则需要执行，那么根据任务的时间片从新计算下次执行时间，若时间片为0代表只执行一次，则直接移除队列即可。</p>
+<h3 id="Timer已经被取代"><a href="#Timer已经被取代" class="headerlink" title="Timer已经被取代"></a>Timer已经被取代</h3><p>太坑爹了。。学习了Timer后才在java并发编程实践中看到Timer这一章。书上介绍，TimerTask抛出异常时Timer并不会捕获，这就导致Timer异常结束，而使用者根本就不知道这个事情，使得已经被调度的线程和还未执行的线程都不会执行。这就是所谓的“线程泄漏”。在JDK5.0以后的版本中，使用DelayQueue来代替Timer。DelayQueue实现了BlockingQueue，管理一组Delay对象，可以提供安全的操作。<br>这就是错误的Timer行为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
 <h2 id="线程池扩展"><a href="#线程池扩展" class="headerlink" title="线程池扩展"></a>线程池扩展</h2><ul>
 <li>Executors.newScheduledThreadPool<br>来完成对调度队列中的线程池的处理，内部通过new ScheduledThreadPoolExecutor来创建线程池的Executor的创建，当然也可以调用：<br>*Executors.unconfigurableScheduledExecutorService<br>方法来创建一个DelegatedScheduledExecutorService其实这个类就是包装了下下scheduleExecutor，也就是这只是一个壳，英文理解就是被委派的意思，被托管的意思。</li>
 </ul>
@@ -131,7 +132,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/17/Java多线程编程-三/" data-id="cipl9s2xy00027wje78r7i8wo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/17/Java多线程编程-三/" data-id="cipwm8pwc0002zsjemj2vrr3a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -139,6 +140,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/06/21/Java多线程编程-四/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java多线程编程(四)
+        
+      </div>
+    </a>
   
   
     <a href="/2016/06/15/Java多线程编程-二/" id="article-nav-older" class="article-nav-link-wrap">
