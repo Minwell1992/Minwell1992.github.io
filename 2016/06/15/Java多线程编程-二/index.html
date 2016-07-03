@@ -5,19 +5,16 @@
   
   <title>Java多线程编程(二) | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。
-wait()和notify()wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须  要获得该对象的对象级别锁  ——  只能在同步方法或同步代码块  调用此方法。执行方法后，当前线程释放锁。如果调">
+  <meta name="description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程编程(二)">
 <meta property="og:url" content="http://yoursite.com/2016/06/15/Java多线程编程-二/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。
-wait()和notify()wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须  要获得该对象的对象级别锁  ——  只能在同步方法或同步代码块  调用此方法。执行方法后，当前线程释放锁。如果调">
-<meta property="og:updated_time" content="2016-06-17T12:44:15.659Z">
+<meta property="og:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。">
+<meta property="og:updated_time" content="2016-06-26T13:49:33.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程编程(二)">
-<meta name="twitter:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。
-wait()和notify()wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须  要获得该对象的对象级别锁  ——  只能在同步方法或同步代码块  调用此方法。执行方法后，当前线程释放锁。如果调">
+<meta name="twitter:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -75,7 +72,7 @@ wait()和notify()wait()方法作用是使当前执行代码的线程进行等待
   <div class="article-inner">
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h1><p>使用线程的场景很多，线程间通信是线程互相协作的必要技术。</p>
+        <h1 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h1><p>使用线程的场景很多，线程间通信是线程互相协作的必要技术。<br><a id="more"></a></p>
 <h2 id="wait-和notify"><a href="#wait-和notify" class="headerlink" title="wait()和notify()"></a>wait()和notify()</h2><p>wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须 <strong> 要获得该对象的对象级别锁 </strong> —— <strong> 只能在同步方法或同步代码块 </strong> 调用此方法。执行方法后，当前线程释放锁。如果调用wait()时没有得到合适的锁，就会抛出IllegalMonitorStateException(RuntimeException)异常。<br>notify()方法作用是 <strong> 对象 </strong> 通知等待的线程继续运行。若有多个线程等待，线程规划器随机挑选一个wait线程唤醒。与wait()类似，也必须持有对象的锁。需要注意的是，notify()方法执行后并未立刻释放锁，而且等待线程也不是立即被唤醒，而是在当前线程执行完毕，也就是退出synchronized代码块后当前线程才会释放锁，wait线程才可以获取锁。<br>总而言之，wait使线程停止运行，notify使停止的线程继续运行。<br>一个简单的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">_3SimpleWaitNotify</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		Object o = <span class="keyword">new</span> Object();</span><br><span class="line">		Thread a = <span class="keyword">new</span> MyThreadA(o);</span><br><span class="line">		a.start();</span><br><span class="line">		Thread b = <span class="keyword">new</span> MyThreadB(o);</span><br><span class="line">		Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">		b.start();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> Object o;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">MyThreadA</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.o = o;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">synchronized</span> (o) &#123;</span><br><span class="line">					System.out.println(<span class="string">"start wait time is "</span> + System.currentTimeMillis());</span><br><span class="line">					o.wait();</span><br><span class="line">					System.out.println(<span class="string">"end wait time is "</span> + System.currentTimeMillis());</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadB</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> Object o;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">MyThreadB</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.o = o;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">synchronized</span> (o) &#123;</span><br><span class="line">				System.out.println(<span class="string">"start notify time is "</span> + System.currentTimeMillis());</span><br><span class="line">				o.notify();</span><br><span class="line">				System.out.println(<span class="string">"end notify time is "</span> + System.currentTimeMillis());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="interrupt-和wait"><a href="#interrupt-和wait" class="headerlink" title="interrupt()和wait()"></a>interrupt()和wait()</h3><p>当线程正在等待，调用线程对象的interrupt()方法时会出现InterruptedException。<br>总结一下线程释放锁的3种情况：</p>
 <ol>
@@ -165,9 +162,11 @@ wait()和notify()wait()方法作用是使当前执行代码的线程进行等待
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/15/Java多线程编程-二/" data-id="cipwm8pwm0004zsje91gvv11k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/15/Java多线程编程-二/" data-id="ciq57rdoq000cfoje6nesopv5" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li></ul>
+
     </footer>
   </div>
   
