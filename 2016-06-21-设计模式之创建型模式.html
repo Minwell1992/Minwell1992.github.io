@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>设计模式之创建型模式 | Minwell</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从现在起，我们开始学习设计模式。实际上，在以前的学习中已经接触到了许多的设计模式。比如，IO的装饰者模式，String常量池中的享元模式，单例模式，简单工厂、静态工厂模式，GUI监测的观察者模式，Spring中的代理模式等等。在一本书上看过，设计模式不只是一套公式，为了设计模式而设计，而是来源于程序而高于程序的一套系统的方法论。可以说任意的程序都能找到设计模式的影子，可能是一个模式，也可能是很多设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之创建型模式">
+<meta property="og:url" content="http://Minwell1992.github.io/2016-06-21-设计模式之创建型模式.html">
+<meta property="og:site_name" content="Minwell">
+<meta property="og:description" content="从现在起，我们开始学习设计模式。实际上，在以前的学习中已经接触到了许多的设计模式。比如，IO的装饰者模式，String常量池中的享元模式，单例模式，简单工厂、静态工厂模式，GUI监测的观察者模式，Spring中的代理模式等等。在一本书上看过，设计模式不只是一套公式，为了设计模式而设计，而是来源于程序而高于程序的一套系统的方法论。可以说任意的程序都能找到设计模式的影子，可能是一个模式，也可能是很多设">
+<meta property="og:updated_time" content="2016-06-26T13:50:20.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之创建型模式">
+<meta name="twitter:description" content="从现在起，我们开始学习设计模式。实际上，在以前的学习中已经接触到了许多的设计模式。比如，IO的装饰者模式，String常量池中的享元模式，单例模式，简单工厂、静态工厂模式，GUI监测的观察者模式，Spring中的代理模式等等。在一本书上看过，设计模式不只是一套公式，为了设计模式而设计，而是来源于程序而高于程序的一套系统的方法论。可以说任意的程序都能找到设计模式的影子，可能是一个模式，也可能是很多设">
+  
+    <link rel="alternative" href="/atom.xml" title="Minwell" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars3.githubusercontent.com/u/12514772?v=3&amp;s=460" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Minwell</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">文章目录</a></li>
+				        
+							<li><a href="/about/index.html">关于我</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Minwell1992" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/wangxc666" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="/mooner1992@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Java并发编程/" style="font-size: 15px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Minwell</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="https://avatars3.githubusercontent.com/u/12514772?v=3&amp;s=460" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Minwell</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">文章目录</a></li>
+		        
+					<li><a href="/about/index.html">关于我</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Minwell1992" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/wangxc666" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="/mooner1992@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-设计模式之创建型模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016-06-21-设计模式之创建型模式.html" class="article-date">
+  	<time datetime="2016-06-21T02:23:10.000Z" itemprop="datePublished">2016-06-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      设计模式之创建型模式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>从现在起，我们开始学习设计模式。<br>实际上，在以前的学习中已经接触到了许多的设计模式。比如，IO的装饰者模式，String常量池中的享元模式，单例模式，简单工厂、静态工厂模式，GUI监测的观察者模式，Spring中的代理模式等等。在一本书上看过，设计模式不只是一套公式，为了设计模式而设计，而是来源于程序而高于程序的一套系统的方法论。可以说任意的程序都能找到设计模式的影子，可能是一个模式，也可能是很多设计模式杂糅在一起。<br>虽然之前接触过，也大概了解一些设计模式的含义，但是还没有经过系统的学习。学设计模式的意义在于了解大局观，能从架构上寻找合适的解决问题方法。<br>GOF的中介绍，设计模式大致分为3大类：创建型模式（Creational Patterns）、结构型模式（Structural Patterns）、行为型模式（Behavioral Patterns）。在此基础之上，我们再来学习J2EE的几种设计模式。<br><a id="more"></a></p>
+<blockquote>
+<p>参考:<br><a href="http://www.runoob.com/design-pattern/design-pattern-tutorial.html" target="_blank" rel="external">设计模式</a><br><a href="http://www.cnblogs.com/hnrainll/archive/2011/12/29/2305582.html" target="_blank" rel="external">java常用设计模式</a></p>
+</blockquote>
+<p>本篇介绍 <strong> 创建者模式 </strong> ，其中包含这几个大类：</p>
+<ul>
+<li>工厂模式（Factory Pattern）</li>
+<li>抽象工厂模式（Abstract Factory Pattern）</li>
+<li>单例模式（Singleton Pattern）</li>
+<li>建造者模式（Builder Pattern）</li>
+<li>原型模式（Prototype Pattern）</li>
+</ul>
+<p>这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用新的运算符直接实例化对象。这使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活。</p>
+<hr>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>工厂模式是Java中最常用的设计模式之一，提供了创建对象的最佳方式。这种情况下，创建对象时不会对客户端暴露创建的逻辑，而且通过一个公共接口来指向新的对象。<br>在我们明确的计划需要在不同条件下创建不同的示例时，工厂模式就是我们需要的模式。比如说，我们需要一辆汽车，只需要付款，并去工厂提货就可以了，具体这车的车体、发动机、轮毂是如何生产我们不需要关心，只需要好好用就可以了。<br>工厂模式的优点：</p>
+<ul>
+<li>一个调用中想创建一个对象，只知道名称即可，不需要了解其内部实现；</li>
+<li>扩展性高，每增加一个产品，只需要扩展工厂类就可以；</li>
+</ul>
+<p>但同时，也有这个缺点：</p>
+<ul>
+<li>每次增加一个产品，就需要增加一个具体类和对象实现工厂，使得系统中的类的个数直线上升，同时使得类的关系错综复杂，增加了耦合性。</li>
+</ul>
+<p>使用工厂模式需要注意的是，不能滥用这个模式。如果创建的对象只需要new，那么没必要设计一个复杂的工厂类，如果使用了工厂模式，那么需要引入工厂类，增加了复杂度。<br>工厂模式典型例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.创建一个接口</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//2.创建实现接口的实体类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"this is rectangle"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Squre</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"this is squre"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"this is circle"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//3.创建工厂方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShapeFactory</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Shape <span class="title">getShape</span> <span class="params">(String shapeType)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (shapeType == <span class="keyword">null</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">switch</span> (shapeType.toLowerCase()) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"circle"</span>:</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Circle();</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"rectangle"</span> :</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Rectangle();</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"squre"</span> :</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Squre();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//4.使用该工厂，通过传递类型信息来获取对应的对象</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryPatternDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		ShapeFactory sf = <span class="keyword">new</span> ShapeFactory();</span><br><span class="line">		Shape shapes[] = <span class="keyword">new</span> Shape[<span class="number">3</span>];</span><br><span class="line">		shapes[<span class="number">0</span>] = sf.getShape(<span class="string">"CIRCLE"</span>);</span><br><span class="line">		shapes[<span class="number">1</span>] = sf.getShape(<span class="string">"RECTANGLE"</span>);</span><br><span class="line">		shapes[<span class="number">2</span>] = sf.getShape(<span class="string">"SQURE"</span>);</span><br><span class="line">		<span class="keyword">for</span> (Shape shape : shapes)</span><br><span class="line">			shape.draw();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="抽象工厂类型"><a href="#抽象工厂类型" class="headerlink" title="抽象工厂类型"></a>抽象工厂类型</h2><p>围绕一个超级工厂创建其他工厂。该超级工厂又称为其他工厂的工厂。抽象工厂的概念和工厂很像，都是生产对象，但区别也很大：抽象工厂是工厂的上一层，是生产工厂的工厂。比如有多个工厂生产键鼠，A是罗技，B是微软。此时就需要抽象工厂在上一层来统筹规划，指派A或者B来生产对象。如果只使用普通的工厂，生产同类型但又不同的对象需要增加方法，而抽象工厂只需要换一个工厂就可以同时替换键盘和鼠标。<br>所以可以这样总结：工厂模式类似于流水线，产生所需要的对象，而抽象工厂就像真正的工厂，可以使用不同流水线产生对象。<br>下面来介绍一个简单的例子，使用了上一个例子中的几个类：<br>首先像上一个例子一样写一个color接口，并新建几个color方法Red, Blue, Black。创建一个抽象工厂类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractFatory</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> Color <span class="title">getColor</span><span class="params">(String color)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> Shape <span class="title">getShape</span><span class="params">(String shape)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再创建工厂类AbstractColorFactory、AbstractShapeFactory实现抽象工厂。<br>最后创建生产工厂的方法，让外部程序调用产生对象：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryProducer</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> AbstractFatory <span class="title">getFactory</span> <span class="params">(String choice)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">switch</span> (choice.toLowerCase()) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"shape"</span> :</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> AbstractShapeFactory();</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"color"</span> :</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> AbstractColorFactory();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>单例模式是最简单的设计模式之一。这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有这一个对象被创建。可以直接访问，不需要而且不可以实例化该类的对象。<br>单例模式应用广泛。比如在hibernate中，创建Session需要很大的资源消耗，但这是必要的一步，而且，每次只需要使用一次即可。这种情况下，单例模式是最好的方法。减少内存的开销，避免了对资源的多重占用。<br>实现单例模式的方式有很多，比如懒汉模式、饿汉模式等。在此不加展开，使用用途非常广泛的这种方式：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleObject</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> SingleObject instance = <span class="keyword">new</span> SingleObject();</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SingleObject</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleObject <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h2><p>建造者模式使用多个简单的对象一步一步构成复杂的对象。最终构成的对象独立于其他对象。其内涵是 <strong> 将一个复杂的对象的构建与它的表示分离，使得同样的构建过程可以有不同的表示 </strong> 。<br>在软件系统中，有时面临着一个“复杂对象”的创建工作，通常各个部分的子对象用一定的算法构成；由于需求的变化，这个复杂对象的各个部分经常需要改变，但是将它们组合在一起的算法却相对稳定。这时可以采用建造者模式。用一个director类把控流程，而用许多不同的builder去建造流程中的细节并产生产品。这样，生产出来的产品是绝对不会出问题的，因为流程把控好了。可以有多个builder去负责建造生产产品，而让director去把控流程。如果有新的产品，但是流程一致，就可以再扩张出一个builder来。<br>建造者模式一般包括以下几个角色：</p>
+<ol>
+<li>Builder：给出一个抽象接口，规范建造者对于生产的产品的各个组成部分的建造。这个接口只是定一个规范，不涉及具体的建造，具体的建造让继承于它的子类（ConcreteBuilder）去实现。</li>
+<li>ConcreteBuilder：实现builder接口，针对不同的商业逻辑，具体化各对象部分的建造，最后返回一个建造好的产品。</li>
+<li>Director：导演，顾名思义，负责规范流程之用。在指导中不涉及产品的创建，只负责保证复杂对象各部分被创建或按某种顺序创建。</li>
+<li>Product：复杂对象。</li>
+</ol>
+<p>下面是建造者模式的一个例子。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Builder，制定规范，每个产品包含名字、包装、价格三个要素</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Item</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Packing <span class="title">packing</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">price</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Packing</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">pack</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Wrapper</span> <span class="keyword">implements</span> <span class="title">Packing</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">pack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Wrapper"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bottle</span> <span class="keyword">implements</span> <span class="title">Packing</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">pack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Bottle"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//上一层抽象层的产品</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Burger</span> <span class="keyword">implements</span> <span class="title">Item</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Packing <span class="title">packing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Wrapper();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">float</span> <span class="title">price</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ColdDrink</span> <span class="keyword">implements</span> <span class="title">Item</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Packing <span class="title">packing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Bottle();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">float</span> <span class="title">price</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ConcreteBuilder，实现了Builder接口。针对不同逻辑产生不同产品，包括汉堡、冷饮等</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VegBurger</span> <span class="keyword">extends</span> <span class="title">Burger</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Veg Burger"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">price</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">25.0f</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChickenBurger</span> <span class="keyword">extends</span> <span class="title">Burger</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Chicken Burger"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">price</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">50.5f</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Coke</span> <span class="keyword">extends</span> <span class="title">ColdDrink</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Coke"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">price</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">30f</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pepsi</span> <span class="keyword">extends</span> <span class="title">ColdDrink</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Pepsi"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">price</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">35f</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//工具类，表示一顿饭，是一个容器类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Meal</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> List&lt;Item&gt; items = <span class="keyword">new</span> ArrayList&lt;Item&gt;();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addItem</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">		items.add(item);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getCost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">float</span> cost = <span class="number">0.0f</span>;</span><br><span class="line">		<span class="keyword">for</span> (Item item : items)</span><br><span class="line">			cost += item.price();</span><br><span class="line">		<span class="keyword">return</span> cost;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showItems</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (Item item : items)</span><br><span class="line">			System.out.println(<span class="string">"Item:"</span> + item.name() + <span class="string">", Packing:"</span> + </span><br><span class="line">					item.packing().pack() + <span class="string">", Price:"</span> + item.price());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Director，规范流程，即建造者是怎样怎样具体工作的</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MealBuilder</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Meal <span class="title">papareVegMeal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Meal meal = <span class="keyword">new</span> Meal();</span><br><span class="line">		meal.addItem(<span class="keyword">new</span> VegBurger());</span><br><span class="line">		meal.addItem(<span class="keyword">new</span> Coke());</span><br><span class="line">		<span class="keyword">return</span> meal;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Meal <span class="title">papareNonVegMeal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Meal meal = <span class="keyword">new</span> Meal();</span><br><span class="line">		meal.addItem(<span class="keyword">new</span> ChickenBurger());</span><br><span class="line">		meal.addItem(<span class="keyword">new</span> Pepsi());</span><br><span class="line">		<span class="keyword">return</span> meal;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Product，在客户端中真正使用导演来构建复杂对象</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BuilderPattern</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		MealBuilder mealBuilder = <span class="keyword">new</span> MealBuilder();</span><br><span class="line"></span><br><span class="line">		Meal vegMeal = mealBuilder.papareVegMeal();</span><br><span class="line">		System.out.println(<span class="string">"Veg Meal"</span>);</span><br><span class="line">		vegMeal.showItems();</span><br><span class="line">		System.out.println(<span class="string">"Total cost:"</span> + vegMeal.getCost());</span><br><span class="line">		</span><br><span class="line">		Meal nonVegMeal = mealBuilder.papareNonVegMeal();</span><br><span class="line">		System.out.println(<span class="string">"\n\nNon-Veg Meal"</span>);</span><br><span class="line">		nonVegMeal.showItems();</span><br><span class="line">		System.out.println(<span class="string">"Total cost:"</span> + nonVegMeal.getCost());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>建造者者模式和工厂模式有什么区别呢？我认为建造者模式更注重于流程，过程更加复杂但是对于流程控制严格的应用场合相当重要。而工厂模式关注与具体的实现策略，讲究到底是如何实现的。<br>使用建造者模式的优势如下：</p>
+<ol>
+<li>使用建造者模式可以使客户端不必知道产品内部组成的细节。</li>
+<li>具体的建造者类之间是相互独立的，对系统的扩展非常有利。</li>
+<li>由于具体的建造者是独立的，因此可以对建造过程逐步细化，而不对其他的模块产生任何影响。</li>
+</ol>
+<blockquote>
+<p>参考<a href="http://blog.csdn.net/hello_haozi/article/details/38819935" target="_blank" rel="external">设计模式——建造者</a></p>
+</blockquote>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><p>原型模式用于创建重复的对象，同时又保证性能。原型模式的思想是生成一个原对象的克隆版本。一般是通过原有对象的内部克隆方法，来生产一个新的对象。相对于工厂、建造者模式，原型模式不需要new一个对象出来，而是直接复制。<br>原型模式主要应用在直接创建对象的代价比较大的场合。比如，一个对象在一个高代价数据库操作后被创建。我们可以缓存该对象，在下一个请求时返回它的克隆，直到需要的时候更新数据库，以此来减少数据库的调用。<br>原型模式绕过了构造函数，不需要创建实例，使得创建对象就像我们复制粘贴一样easy。而且使用的clone方法是本地方法，可以直接操作内存中的二进制流，性能得到显著提升。但原型模式无视构造方法，与隐藏构造方法的单例模式冲突，使用时要加以注意。此外，复制的过程中需要注意深复制和浅复制，要求我们加以注意。<br>原型模式的使用方法：</p>
+<ol>
+<li>实现Cloneable接口。在java语言有一个Cloneable接口，它的作用只有一个，就是在运行时通知虚拟机可以安全地在实现了此接口的类上使用clone方法。在java虚拟机中，只有实现了这个接口的类才可以被拷贝，否则在运行时会抛出CloneNotSupportedException异常。</li>
+<li>重写Object类中的clone方法。Java中，所有类的父类都是Object类，Object类中有一个clone方法，作用是返回对象的一个拷贝，但是其作用域protected类型的，一般的类无法调用，因此，Prototype类需要将clone方法的作用域修改为public类型。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeShape</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String id;</span><br><span class="line">	<span class="keyword">protected</span> String type;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> type;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Object clone = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			clone = <span class="keyword">super</span>.clone();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> clone;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrototypeRectangle</span> <span class="keyword">extends</span> <span class="title">PrototypeShape</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"this is rectangle"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">PrototypeRectangle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		type = <span class="string">"Rectangle"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrototypeSqure</span> <span class="keyword">extends</span> <span class="title">PrototypeShape</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"this is squre"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">PrototypeSqure</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		type = <span class="string">"Squre"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrototypeCircle</span> <span class="keyword">extends</span> <span class="title">PrototypeShape</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"this is circle"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">PrototypeCircle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		type = <span class="string">"Circle"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShapeCache</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, PrototypeShape&gt; shapeMap = </span><br><span class="line">			<span class="keyword">new</span> HashMap&lt;String, PrototypeShape&gt;();</span><br><span class="line">	<span class="comment">//取得对象的克隆版本，即原型</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> PrototypeShape <span class="title">getShape</span><span class="params">(String shapeId)</span> </span>&#123;</span><br><span class="line">		PrototypeShape cachedShape = shapeMap.get(shapeId);</span><br><span class="line">		<span class="keyword">return</span> (PrototypeShape) cachedShape.clone();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 将对象放入缓存中</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadCache</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		PrototypeCircle circle = <span class="keyword">new</span> PrototypeCircle();</span><br><span class="line">		circle.setId(<span class="string">"1"</span>);</span><br><span class="line">		shapeMap.put(circle.getId(), circle);</span><br><span class="line">		PrototypeSqure squre = <span class="keyword">new</span> PrototypeSqure();</span><br><span class="line">		squre.setId(<span class="string">"2"</span>);</span><br><span class="line">		shapeMap.put(squre.getId(), squre);</span><br><span class="line">		PrototypeRectangle rectangle = <span class="keyword">new</span> PrototypeRectangle();</span><br><span class="line">		rectangle.setId(<span class="string">"3"</span>);</span><br><span class="line">		shapeMap.put(rectangle.getId(), rectangle);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		ShapeCache.loadCache();</span><br><span class="line">		PrototypeShape clonedShape1 = (PrototypeShape) ShapeCache.getShape(<span class="string">"1"</span>);</span><br><span class="line">		System.out.println(<span class="string">"Shape:"</span> + clonedShape1.getType());</span><br><span class="line">		PrototypeShape clonedShape2 = (PrototypeShape) ShapeCache.getShape(<span class="string">"2"</span>);</span><br><span class="line">		System.out.println(<span class="string">"Shape:"</span> + clonedShape2.getType());</span><br><span class="line">		PrototypeShape clonedShape3 = (PrototypeShape) ShapeCache.getShape(<span class="string">"3"</span>);</span><br><span class="line">		System.out.println(<span class="string">"Shape:"</span> + clonedShape3.getType());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016-06-22-设计模式之结构型模式.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          设计模式之结构型模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016-06-21-Java多线程编程-四.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java多线程编程(四)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Minwell
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
