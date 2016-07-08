@@ -6,16 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>Java多线程编程(二) | Minwell</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。">
+  <meta name="description" content="本文主要分为两大章，线程间通信和Lock锁技术。线程间通信主要通过wait和notify方法来实现。但effective java中推荐不要使用这两个方法，因为并发包的功能可以满足大部分的需求，而且实现起来比它们要简单的多。此外，介绍了中断、管道通信，以及深入学习了ThreadLocal的源码。Lock锁是一个很重要的特性，相当于把synchronized解耦，提高了锁的灵活性。此外，还包括了Co">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程编程(二)">
-<meta property="og:url" content="http://Minwell1992.github.io/2016-06-15-Java多线程编程-二.html">
+<meta property="og:url" content="http://Minwell1992.github.io/Java多线程编程-二.html">
 <meta property="og:site_name" content="Minwell">
-<meta property="og:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。">
-<meta property="og:updated_time" content="2016-06-26T13:49:33.559Z">
+<meta property="og:description" content="本文主要分为两大章，线程间通信和Lock锁技术。线程间通信主要通过wait和notify方法来实现。但effective java中推荐不要使用这两个方法，因为并发包的功能可以满足大部分的需求，而且实现起来比它们要简单的多。此外，介绍了中断、管道通信，以及深入学习了ThreadLocal的源码。Lock锁是一个很重要的特性，相当于把synchronized解耦，提高了锁的灵活性。此外，还包括了Co">
+<meta property="og:updated_time" content="2016-07-05T11:55:08.171Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程编程(二)">
-<meta name="twitter:description" content="线程间通信使用线程的场景很多，线程间通信是线程互相协作的必要技术。">
+<meta name="twitter:description" content="本文主要分为两大章，线程间通信和Lock锁技术。线程间通信主要通过wait和notify方法来实现。但effective java中推荐不要使用这两个方法，因为并发包的功能可以满足大部分的需求，而且实现起来比它们要简单的多。此外，介绍了中断、管道通信，以及深入学习了ThreadLocal的源码。Lock锁是一个很重要的特性，相当于把synchronized解耦，提高了锁的灵活性。此外，还包括了Co">
   
     <link rel="alternative" href="/atom.xml" title="Minwell" type="application/atom+xml">
   
@@ -101,7 +101,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java并发编程/" style="font-size: 15px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a>
+						<a href="/tags/Java并发编程/" style="font-size: 16.67px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 13.33px;">设计模式</a>
 					</div>
 				</section>
 				
@@ -162,7 +162,7 @@
       <div class="body-wrap"><article id="post-Java多线程编程-二" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-06-15-Java多线程编程-二.html" class="article-date">
+      <a href="/Java多线程编程-二.html" class="article-date">
   	<time datetime="2016-06-15T07:44:20.000Z" itemprop="datePublished">2016-06-15</time>
 </a>
     </div>
@@ -198,7 +198,8 @@
       
         <!-- Table of Contents -->
         
-        <h1 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h1><p>使用线程的场景很多，线程间通信是线程互相协作的必要技术。<br><a id="more"></a></p>
+        <p>本文主要分为两大章，线程间通信和Lock锁技术。<br>线程间通信主要通过wait和notify方法来实现。但effective java中推荐不要使用这两个方法，因为并发包的功能可以满足大部分的需求，而且实现起来比它们要简单的多。此外，介绍了中断、管道通信，以及深入学习了ThreadLocal的源码。<br>Lock锁是一个很重要的特性，相当于把synchronized解耦，提高了锁的灵活性。此外，还包括了Condition、ReentrantLocl和ReentrantReadWriteLock类的相关特性。<br><a id="more"></a></p>
+<h1 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h1><p>使用线程的场景很多，线程间通信是线程互相协作的必要技术。</p>
 <h2 id="wait-和notify"><a href="#wait-和notify" class="headerlink" title="wait()和notify()"></a>wait()和notify()</h2><p>wait()方法作用是使当前执行代码的线程进行等待。该方法是object方法，将当前线程放入“预执行队列”中，并在wait()处停止，直到接到通知或中断为止。调用wait()前，线程必须 <strong> 要获得该对象的对象级别锁 </strong> —— <strong> 只能在同步方法或同步代码块 </strong> 调用此方法。执行方法后，当前线程释放锁。如果调用wait()时没有得到合适的锁，就会抛出IllegalMonitorStateException(RuntimeException)异常。<br>notify()方法作用是 <strong> 对象 </strong> 通知等待的线程继续运行。若有多个线程等待，线程规划器随机挑选一个wait线程唤醒。与wait()类似，也必须持有对象的锁。需要注意的是，notify()方法执行后并未立刻释放锁，而且等待线程也不是立即被唤醒，而是在当前线程执行完毕，也就是退出synchronized代码块后当前线程才会释放锁，wait线程才可以获取锁。<br>总而言之，wait使线程停止运行，notify使停止的线程继续运行。<br>一个简单的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">_3SimpleWaitNotify</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		Object o = <span class="keyword">new</span> Object();</span><br><span class="line">		Thread a = <span class="keyword">new</span> MyThreadA(o);</span><br><span class="line">		a.start();</span><br><span class="line">		Thread b = <span class="keyword">new</span> MyThreadB(o);</span><br><span class="line">		Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">		b.start();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> Object o;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">MyThreadA</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.o = o;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">synchronized</span> (o) &#123;</span><br><span class="line">					System.out.println(<span class="string">"start wait time is "</span> + System.currentTimeMillis());</span><br><span class="line">					o.wait();</span><br><span class="line">					System.out.println(<span class="string">"end wait time is "</span> + System.currentTimeMillis());</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadB</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> Object o;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">MyThreadB</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.o = o;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">synchronized</span> (o) &#123;</span><br><span class="line">				System.out.println(<span class="string">"start notify time is "</span> + System.currentTimeMillis());</span><br><span class="line">				o.notify();</span><br><span class="line">				System.out.println(<span class="string">"end notify time is "</span> + System.currentTimeMillis());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="interrupt-和wait"><a href="#interrupt-和wait" class="headerlink" title="interrupt()和wait()"></a>interrupt()和wait()</h3><p>当线程正在等待，调用线程对象的interrupt()方法时会出现InterruptedException。<br>总结一下线程释放锁的3种情况：</p>
 <ol>
@@ -293,7 +294,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2016-06-17-Java多线程编程-三.html" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Java多线程编程-三.html" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
@@ -303,7 +304,7 @@
     </a>
   
   
-    <a href="/2016-06-13-Java多线程编程-一.html" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/Java多线程编程-一.html" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Java多线程编程(一)</div>
       <strong class="article-nav-caption">></strong>
     </a>

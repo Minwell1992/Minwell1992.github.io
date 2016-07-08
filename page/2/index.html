@@ -100,7 +100,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java并发编程/" style="font-size: 15px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a>
+						<a href="/tags/Java并发编程/" style="font-size: 16.67px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 13.33px;">设计模式</a>
 					</div>
 				</section>
 				
@@ -160,11 +160,11 @@
 
       <div class="body-wrap">
   
-    <article id="post-Java多线程编程-二" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Java多线程编程-三" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-06-15-Java多线程编程-二.html" class="article-date">
-  	<time datetime="2016-06-15T07:44:20.000Z" itemprop="datePublished">2016-06-15</time>
+      <a href="/Java多线程编程-三.html" class="article-date">
+  	<time datetime="2016-06-17T12:45:26.000Z" itemprop="datePublished">2016-06-17</time>
 </a>
     </div>
   
@@ -177,7 +177,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016-06-15-Java多线程编程-二.html">Java多线程编程(二)</a>
+      <a class="article-title" href="/Java多线程编程-三.html">Java多线程编程(三)</a>
     </h1>
   
 
@@ -186,7 +186,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h1><p>使用线程的场景很多，线程间通信是线程互相协作的必要技术。<br>
+        <p>本文介绍了定时器Timer和线程的其他特性。<br>Timer是一个定时器，可以定时来做一次或重复任务。学习了Timer的源码，但是后来在effective java上看到Timer有一些问题，推荐DelayQueue来取代。<br>后面还介绍了线程的特性，比如线程的状态及其变化，还有线程组及对异常的处理等。</p>
       
     </div>
     
@@ -201,7 +201,67 @@
 
       
         <p class="article-more-link">
-          <a  href="/2016-06-15-Java多线程编程-二.html#more">more >></a>
+          <a  href="/Java多线程编程-三.html#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Java多线程编程-二" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/Java多线程编程-二.html" class="article-date">
+  	<time datetime="2016-06-15T07:44:20.000Z" itemprop="datePublished">2016-06-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Java多线程编程-二.html">Java多线程编程(二)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文主要分为两大章，线程间通信和Lock锁技术。<br>线程间通信主要通过wait和notify方法来实现。但effective java中推荐不要使用这两个方法，因为并发包的功能可以满足大部分的需求，而且实现起来比它们要简单的多。此外，介绍了中断、管道通信，以及深入学习了ThreadLocal的源码。<br>Lock锁是一个很重要的特性，相当于把synchronized解耦，提高了锁的灵活性。此外，还包括了Condition、ReentrantLocl和ReentrantReadWriteLock类的相关特性。<br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/Java多线程编程-二.html#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -223,7 +283,7 @@
     <article id="post-Java多线程编程-一" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-06-13-Java多线程编程-一.html" class="article-date">
+      <a href="/Java多线程编程-一.html" class="article-date">
   	<time datetime="2016-06-13T12:12:46.000Z" itemprop="datePublished">2016-06-13</time>
 </a>
     </div>
@@ -237,7 +297,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016-06-13-Java多线程编程-一.html">Java多线程编程(一)</a>
+      <a class="article-title" href="/Java多线程编程-一.html">Java多线程编程(一)</a>
     </h1>
   
 
@@ -246,7 +306,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在学习并发编程。准备学习路线是：《java多线程核心编程技术》（敲一遍）-&gt;《java并发编程实践》（理论掌握）-&gt;java.util.concurrent源码阅读。我将已经敲过的代码放入github仓库中，有兴趣的童鞋可以瞅瞅。<br>下面就记录一下我的一些心得体会~<br>
+        <p>最近在学习并发编程。准备学习路线是：《java多线程核心编程技术》（敲一遍）-&gt;《java并发编程实践》（理论掌握）-&gt;java.util.concurrent源码阅读。我将已经敲过的代码放入github仓库中，有兴趣的童鞋可以瞅瞅。<br>下面就记录一下我的一些心得体会~<br>本文介绍了多线程的基础，比如创建线程，以及synchronized和volatile关键字等。<br>
       
     </div>
     
@@ -261,7 +321,7 @@
 
       
         <p class="article-more-link">
-          <a  href="/2016-06-13-Java多线程编程-一.html#more">more >></a>
+          <a  href="/Java多线程编程-一.html#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -283,7 +343,7 @@
     <article id="post-java求绝对值的一个小bug" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-06-08-java求绝对值的一个小bug.html" class="article-date">
+      <a href="/java求绝对值的一个小bug.html" class="article-date">
   	<time datetime="2016-06-08T02:58:52.000Z" itemprop="datePublished">2016-06-08</time>
 </a>
     </div>
@@ -297,7 +357,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016-06-08-java求绝对值的一个小bug.html">java求绝对值的一个小bug</a>
+      <a class="article-title" href="/java求绝对值的一个小bug.html">java求绝对值的一个小bug</a>
     </h1>
   
 
@@ -317,7 +377,7 @@
 
       
         <p class="article-more-link">
-          <a  href="/2016-06-08-java求绝对值的一个小bug.html#more">more >></a>
+          <a  href="/java求绝对值的一个小bug.html#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -339,7 +399,7 @@
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-06-06-hello-world.html" class="article-date">
+      <a href="/hello-world.html" class="article-date">
   	<time datetime="2016-06-06T08:24:46.318Z" itemprop="datePublished">2016-06-06</time>
 </a>
     </div>
@@ -353,7 +413,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016-06-06-hello-world.html">Hello World</a>
+      <a class="article-title" href="/hello-world.html">Hello World</a>
     </h1>
   
 
@@ -373,7 +433,7 @@
 
       
         <p class="article-more-link">
-          <a  href="/2016-06-06-hello-world.html#more">more >></a>
+          <a  href="/hello-world.html#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -395,7 +455,7 @@
     <article id="post-我的书单" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-06-03-我的书单.html" class="article-date">
+      <a href="/我的书单.html" class="article-date">
   	<time datetime="2016-06-03T12:16:56.000Z" itemprop="datePublished">2016-06-03</time>
 </a>
     </div>
@@ -409,7 +469,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016-06-03-我的书单.html">我的书单</a>
+      <a class="article-title" href="/我的书单.html">我的书单</a>
     </h1>
   
 
@@ -429,7 +489,67 @@
 
       
         <p class="article-more-link">
-          <a  href="/2016-06-03-我的书单.html#more">more >></a>
+          <a  href="/我的书单.html#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-面试经历" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/面试经历.html" class="article-date">
+  	<time datetime="2016-05-22T13:18:44.000Z" itemprop="datePublished">2016-05-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/面试经历.html">面试经历</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从准备找工作到现在，看过了不少面经，收获很大。对于企业的技能要求、文化特点了解很多。在此，我也把我的面试经历记录下来，一来作为总结，查漏补缺，二来希望能给别人一点帮助，回馈社会~</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/杂谈/">杂谈</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/面试经历.html#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -451,7 +571,7 @@
     <article id="post-关于这个博客" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-05-18-关于这个博客.html" class="article-date">
+      <a href="/关于这个博客.html" class="article-date">
   	<time datetime="2016-05-18T12:16:49.000Z" itemprop="datePublished">2016-05-18</time>
 </a>
     </div>
@@ -465,7 +585,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016-05-18-关于这个博客.html">关于这个博客</a>
+      <a class="article-title" href="/关于这个博客.html">关于这个博客</a>
     </h1>
   
 
@@ -489,7 +609,7 @@
 
       
         <p class="article-more-link">
-          <a  href="/2016-05-18-关于这个博客.html#more">more >></a>
+          <a  href="/关于这个博客.html#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

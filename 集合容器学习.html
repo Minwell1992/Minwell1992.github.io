@@ -4,18 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>集合容器学习之Set | Minwell</title>
+  <title>集合容器学习 | Minwell</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Minwell | java | Minwell1992">
+  <meta name="description" content="java中包含了丰富的集合框架。在以前的学习中陆陆续续接触了不少的内容，但没有系统的学习。从这里开始重温容器及对源码进行剖析。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="集合容器学习之Set">
-<meta property="og:url" content="http://Minwell1992.github.io/2016-07-04-集合容器学习之Set.html">
+<meta property="og:title" content="集合容器学习">
+<meta property="og:url" content="http://Minwell1992.github.io/集合容器学习.html">
 <meta property="og:site_name" content="Minwell">
-<meta property="og:description" content="Minwell | java | Minwell1992">
-<meta property="og:updated_time" content="2016-07-04T09:03:01.961Z">
+<meta property="og:description" content="java中包含了丰富的集合框架。在以前的学习中陆陆续续接触了不少的内容，但没有系统的学习。从这里开始重温容器及对源码进行剖析。">
+<meta property="og:image" content="http://img.blog.csdn.net/20140628144205625">
+<meta property="og:updated_time" content="2016-07-04T14:50:53.196Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="集合容器学习之Set">
-<meta name="twitter:description" content="Minwell | java | Minwell1992">
+<meta name="twitter:title" content="集合容器学习">
+<meta name="twitter:description" content="java中包含了丰富的集合框架。在以前的学习中陆陆续续接触了不少的内容，但没有系统的学习。从这里开始重温容器及对源码进行剖析。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20140628144205625">
   
     <link rel="alternative" href="/atom.xml" title="Minwell" type="application/atom+xml">
   
@@ -101,7 +103,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java并发编程/" style="font-size: 15px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a>
+						<a href="/tags/Java并发编程/" style="font-size: 16.67px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 13.33px;">设计模式</a>
 					</div>
 				</section>
 				
@@ -159,11 +161,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-集合容器学习之Set" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-集合容器学习" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-07-04-集合容器学习之Set.html" class="article-date">
-  	<time datetime="2016-07-04T08:11:32.000Z" itemprop="datePublished">2016-07-04</time>
+      <a href="/集合容器学习.html" class="article-date">
+  	<time datetime="2016-06-25T14:30:56.000Z" itemprop="datePublished">2016-06-25</time>
 </a>
     </div>
   
@@ -176,7 +178,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      集合容器学习之Set
+      集合容器学习
     </h1>
   
 
@@ -198,7 +200,15 @@
       
         <!-- Table of Contents -->
         
-        
+        <p>java中包含了丰富的集合框架。在以前的学习中陆陆续续接触了不少的内容，但没有系统的学习。从这里开始重温容器及对源码进行剖析。<br><a id="more"></a></p>
+<p>容器是java很重要的一个部分。我们平时使用的容器主要来自于java.util这个包中。java容器由两部分组成：Collection和Map。总体的框架图是这样的：<br><img src="http://img.blog.csdn.net/20140628144205625" alt=""><br>Collection是Set、List和Queue抽象出来的接口，代表着“单个数据”组成的一个集合。Collection接口中包含的方法在set和list均有实现。</p>
+<p>Set接口是一个不包括重复元素（包括可变对象）的Collection，是一种无序的 <strong> 集合 </strong> 。Set不包含满足 a.equals(b) 的元素对a和b，并且最多有一个null。实现Set的接口有：EnumSet、HashSet、TreeSet等。<br>List接口表示一个列表（数组、队列、链表、栈等）的一个Collection，内部的元素可以重复。实现List的有：ArrayList、LinkedList、Vector、Stack等。<br>Queue是一种队列（双端队列），支持在头、尾两端插入和移除元素，主要包括：ArrayDeque、LinkedBlockingDeque、LinkedList。另一种是阻塞式队列，队列满了以后再插入元素则会抛出异常，主要包括ArrayBlockQueue、PriorityBlockingQueue、LinkedBlockingQueue。虽然接口并未定义阻塞方法，但是实现类扩展了此接口。</p>
+<p>Map是一个键值对的集合。也就是说，一个映射不能包含重复的键，每个键最多映射到一个值。该接口取代了Dictionary抽象类。实现map的有：HashMap、TreeMap、HashTable、Properties、EnumMap。</p>
+<p>此外，<a href="http://calvin1978.blogcn.com/articles/collection.html" target="_blank" rel="external">关于Java集合的小抄</a>把知识点提取出来，相当靠谱。</p>
+<blockquote>
+<p>参考:<br><a href="http://blog.csdn.net/ns_code/article/details/35564663" target="_blank" rel="external">Java集合框架</a><br><a href="http://www.importnew.com/15689.html" target="_blank" rel="external">Java 容器 &amp; 泛型认识容器</a></p>
+</blockquote>
+
       
     </div>
     
@@ -207,18 +217,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016-07-04-面试经历.html" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/集合容器学习之HashMap.html" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          面试经历
+          集合容器学习之HashMap
         
       </div>
     </a>
   
   
-    <a href="/2016-07-03-集合容器学习之List.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">集合容器学习之List</div>
+    <a href="/设计模式之行为型模式.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设计模式之行为型模式</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>面试经历 | Minwell</title>
+  <title>集合容器学习之Set | Minwell</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Minwell | java | Minwell1992">
+  <meta name="description" content="Set表示集合的意思，是三大容器中最简单的一种。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面试经历">
-<meta property="og:url" content="http://Minwell1992.github.io/2016-07-04-面试经历.html">
+<meta property="og:title" content="集合容器学习之Set">
+<meta property="og:url" content="http://Minwell1992.github.io/集合容器学习之Set.html">
 <meta property="og:site_name" content="Minwell">
-<meta property="og:description" content="Minwell | java | Minwell1992">
-<meta property="og:updated_time" content="2016-07-04T13:18:44.321Z">
+<meta property="og:description" content="Set表示集合的意思，是三大容器中最简单的一种。">
+<meta property="og:updated_time" content="2016-07-04T14:49:02.366Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="面试经历">
-<meta name="twitter:description" content="Minwell | java | Minwell1992">
+<meta name="twitter:title" content="集合容器学习之Set">
+<meta name="twitter:description" content="Set表示集合的意思，是三大容器中最简单的一种。">
   
     <link rel="alternative" href="/atom.xml" title="Minwell" type="application/atom+xml">
   
@@ -101,7 +101,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java并发编程/" style="font-size: 15px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a>
+						<a href="/tags/Java并发编程/" style="font-size: 16.67px;">Java并发编程</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 13.33px;">设计模式</a>
 					</div>
 				</section>
 				
@@ -159,11 +159,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-面试经历" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-集合容器学习之Set" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016-07-04-面试经历.html" class="article-date">
-  	<time datetime="2016-07-04T13:18:44.000Z" itemprop="datePublished">2016-07-04</time>
+      <a href="/集合容器学习之Set.html" class="article-date">
+  	<time datetime="2016-07-04T08:11:32.000Z" itemprop="datePublished">2016-07-04</time>
 </a>
     </div>
   
@@ -176,7 +176,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      面试经历
+      集合容器学习之Set
     </h1>
   
 
@@ -184,6 +184,10 @@
       
       <div class="article-info article-info-post">
         
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li></ul>
+	</div>
+
         
 
         <div class="clearfix"></div>
@@ -194,7 +198,13 @@
       
         <!-- Table of Contents -->
         
-        
+        <p>Set表示集合的意思，是三大容器中最简单的一种。<br><a id="more"></a></p>
+<h1 id="HashSet和TreeSet"><a href="#HashSet和TreeSet" class="headerlink" title="HashSet和TreeSet"></a>HashSet和TreeSet</h1><h2 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h2><p>我们来看一下HashSet的构造方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>其余的就不贴了，可以发现内部完全就是生成了一个HashMap。我们知道，Set只有一个值，而且不能重复，这和Map的key很像。其实就是这样，Set只使用了key，而value就是一个Object，从add方法可以看出来：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//PRESENT的定义</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br></pre></td></tr></table></figure></p>
+<p>其他也没什么好谈的，完全就是调用HashMap的方法。</p>
+<h2 id="TreeSet"><a href="#TreeSet" class="headerlink" title="TreeSet"></a>TreeSet</h2><p>与HashSet类似，TreeSet内部创建了一个TreeMap，所有的方法都来源于TreeMap。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>感觉上HashSet和TreeSet很敷衍，完全是包装了一下HashMap和TreeMap。因为Map有value，Set实现Map浪费了很多的空间来装Object对象。完全可以写出类似的数据结构来提高效率啊！这一点我们需要注意。对于性能要求较高的场合，完全可以自己手动重新写一个Set来完成任务。</p>
+
       
     </div>
     
@@ -203,9 +213,18 @@
     
 <nav id="article-nav">
   
+    <a href="/Java多线程编程-五.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Java多线程编程(五)
+        
+      </div>
+    </a>
   
-    <a href="/2016-07-04-集合容器学习之Set.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">集合容器学习之Set</div>
+  
+    <a href="/集合容器学习之List.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">集合容器学习之List</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
