@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>数据库相关操作 | Minwell</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="以前使用数据库都是用的比较零散，最近重新系统复习了一下MySQL的相关操作，在此做一个笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库相关操作">
+<meta property="og:url" content="http://Minwell1992.github.io/数据库相关操作.html">
+<meta property="og:site_name" content="Minwell">
+<meta property="og:description" content="以前使用数据库都是用的比较零散，最近重新系统复习了一下MySQL的相关操作，在此做一个笔记。">
+<meta property="og:updated_time" content="2016-08-04T15:21:25.352Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库相关操作">
+<meta name="twitter:description" content="以前使用数据库都是用的比较零散，最近重新系统复习了一下MySQL的相关操作，在此做一个笔记。">
+  
+    <link rel="alternative" href="/atom.xml" title="Minwell" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://oa7i3n6b6.bkt.clouddn.com/image/me.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Minwell</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">文章目录</a></li>
+				        
+							<li><a href="/about/index.html">关于我</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Minwell1992" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/wangxc666" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="/mooner1992@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Java并发编程/" style="font-size: 20px;">Java并发编程</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/个人项目/" style="font-size: 13.33px;">个人项目</a> <a href="/tags/串口通信/" style="font-size: 10px;">串口通信</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 13.33px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 16.67px;">设计模式</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Minwell</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="http://oa7i3n6b6.bkt.clouddn.com/image/me.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Minwell</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">文章目录</a></li>
+		        
+					<li><a href="/about/index.html">关于我</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Minwell1992" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/wangxc666" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="/mooner1992@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-数据库相关操作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/数据库相关操作.html" class="article-date">
+  	<time datetime="2016-08-02T09:05:31.000Z" itemprop="datePublished">2016-08-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库相关操作
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>以前使用数据库都是用的比较零散，最近重新系统复习了一下MySQL的相关操作，在此做一个笔记。</p>
+<a id="more"></a>
+<h2 id="MySQL的数据类型"><a href="#MySQL的数据类型" class="headerlink" title="MySQL的数据类型"></a>MySQL的数据类型</h2><p>MySQL有很多的数据类型，可以参考<a href="http://www.runoob.com/mysql/mysql-data-types.html" target="_blank" rel="external">这里</a>来仔细阅读，这里就不搬运了。<br>重点记一下数值类型、字符串类型和时间类型。</p>
+<ul>
+<li>INT或者INTEGER是大整数类型，占用4个字节。FLOAT占用4个字节，DOUBLE8字节。与普通的数据类型没太大的区别。</li>
+<li>字符串类型常用的主要是CHAR和VARCHAR。前者是定长字符串，后者长度不定，比较灵活。区别主要是查找的时候前者略快，总体上还是VARCHAR更为常用。此外，还有TEXT这种类型，可以储存长文本。</li>
+<li>日期类型常用的主要是DATE、TIME和DATETIME。分别表示日期、时间和日期时间。</li>
+</ul>
+<h2 id="数据库常用命令"><a href="#数据库常用命令" class="headerlink" title="数据库常用命令"></a>数据库常用命令</h2><p>显示所有数据库：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">DATABASES</span>;</span><br></pre></td></tr></table></figure></p>
+<p>创建数据库：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> db_book;</span><br></pre></td></tr></table></figure></p>
+<p>删除数据库：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">DATABASE</span> db_book;</span><br></pre></td></tr></table></figure></p>
+<h2 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h2><p>表是数据库存储数据的基本单位。每个表包含若干个字段。</p>
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><p>创建表的操作是这样的：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> 表名 (属性名 数据类型 [完整的约束条件]，</span><br><span class="line">		属性名 数据类型 [完整的约束条件]...</span><br><span class="line">		);</span><br></pre></td></tr></table></figure></p>
+<p>注意，表中有一些约束条件：</p>
+<table>
+<thead>
+<tr>
+<th>约束条件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRIMARY KEY</td>
+<td>标识该属性为该表的主键，可以唯一的标识对应的记录</td>
+</tr>
+<tr>
+<td>FOREIGN KEY</td>
+<td>标识该属性为该表的外键，与某表的主键关联</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>标识该属性不能为空</td>
+</tr>
+<tr>
+<td>UNIQUE</td>
+<td>标识该属性的值是唯一的</td>
+</tr>
+<tr>
+<td>AUTO_INCREMENT</td>
+<td>标识该属性的值自动增加</td>
+</tr>
+<tr>
+<td>DEFAULT</td>
+<td>为该属性设置默认值</td>
+</tr>
+</tbody>
+</table>
+<p>下面来看一看创建表的例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t_bookType (</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span> AUTO_INCREMENT ,</span><br><span class="line">	bookTypeName <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	bookTypeDesc <span class="built_in">VARCHAR</span>(<span class="number">200</span>)</span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t_book(</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span> AUTO_INCREMENT,</span><br><span class="line">	bookName <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	author <span class="built_in">DECIMAL</span>(<span class="number">6</span>,<span class="number">2</span>),</span><br><span class="line">	bookTypeId <span class="built_in">INT</span>,</span><br><span class="line">	#外键关联</span><br><span class="line">	<span class="keyword">CONSTRAINT</span> <span class="string">`fk`</span> FOREIGN <span class="keyword">KEY</span> (<span class="string">`bookTypeId`</span>) <span class="keyword">REFERENCES</span> <span class="string">`t_bookType`</span>(<span class="string">`id`</span>)</span><br><span class="line">	);</span><br></pre></td></tr></table></figure>
+<h3 id="改查删"><a href="#改查删" class="headerlink" title="改查删"></a>改查删</h3><p>查看表的结构：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#查看表的结构</span><br><span class="line">DESC t_bookType;</span><br><span class="line">#查看创建表的语句</span><br><span class="line">SHOW CREATE TABLE t_bookType;</span><br></pre></td></tr></table></figure></p>
+<p>修改表：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修改表名: <span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 旧表名 RENMAE 新表名 ；</span><br><span class="line">修改字段: <span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">CHANGE</span> 旧属性名 新属性名 新数据类型</span><br><span class="line">增加字段: <span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">ADD</span> 属性名 <span class="number">1</span> 数据类型 [完整性约束条件] [<span class="keyword">FIRST</span> | <span class="keyword">AFTER</span> 属性名 <span class="number">2</span>]</span><br><span class="line">删除字段: <span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">DROP</span> 属性名</span><br></pre></td></tr></table></figure></p>
+<p>删除表：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">删除表: <span class="keyword">DROP</span> <span class="keyword">TABLE</span> 表名；</span><br></pre></td></tr></table></figure></p>
+<h2 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h2><p>查询数据主要使用的就是SELECT语句，结构是这样的：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 查询字段<span class="number">1</span>,<span class="number">2</span>，... <span class="keyword">FROM</span> 表名 [约束条件];</span><br></pre></td></tr></table></figure></p>
+<p>查询后显示出的结果为：<br>查询字段1    查询字段2    查询字段3<br>    …           …           …</p>
+<h3 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h3><ol>
+<li><p>查询所有字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2</span>，字段 <span class="number">3.</span>..FROM 表名；</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查询指定字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2</span>，字段 <span class="number">3.</span>..FROM 表名；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Where <strong> 条件查询 </strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2</span>，字段 <span class="number">3.</span>..FROM 表名 <span class="keyword">WHERE</span> 条件表达式；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带 IN  <strong> 关键字 </strong> 查询（表示多个字段同时查询）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2</span>，字段 <span class="number">3.</span>..FROM 表名 <span class="keyword">WHERE</span> 字段 [<span class="keyword">NOT</span>] <span class="keyword">IN</span> (元素 <span class="number">1</span>，元素 <span class="number">2</span>，元素 <span class="number">3</span>)；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带 BETWEEN AND 的 <strong> 范围查询 </strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2</span>，字段 <span class="number">3.</span>..FROM 表名 <span class="keyword">WHERE</span> 字段 [<span class="keyword">NOT</span>] <span class="keyword">BETWEEN</span> 取值 <span class="number">1</span> <span class="keyword">AND</span> 取值 <span class="number">2</span>；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带 LIKE 的 <strong> 模糊查询 </strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2</span>，字段 <span class="number">3.</span>..FROM 表名 <span class="keyword">WHERE</span> 字段 [<span class="keyword">NOT</span>] <span class="keyword">LIKE</span> ‘字符串’；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>空值查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2</span>，字段 <span class="number">3.</span>..FROM 表名 <span class="keyword">WHERE</span> 字段 <span class="keyword">IS</span> [<span class="keyword">NOT</span>] <span class="literal">NULL</span>；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带 AND 的多条件查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2.</span>..FROM 表名 <span class="keyword">WHERE</span> 条件表达式 <span class="number">1</span> <span class="keyword">AND</span> 条件表达式 <span class="number">2</span> [...AND 条件表达式 n]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带 OR 的多条件查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2.</span>..FROM 表名 <span class="keyword">WHERE</span> 条件表达式 <span class="number">1</span> <span class="keyword">OR</span> 条件表达式 <span class="number">2</span> [...OR 条件表达式 n]</span><br></pre></td></tr></table></figure>
+<p> “%”代表任意字符；<br> “_” 代表单个字符；</p>
+</li>
+<li><p>DISTINCT  <strong> 去重复查询 </strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> 字段名 <span class="keyword">FROM</span> 表名；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对 <strong> 查询结果排序 </strong> （注意，order必须放在一条语句的最后）ASC为升序，DESC为降序。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2.</span>..FROM 表名 <span class="keyword">ORDER</span> <span class="keyword">BY</span> 属性名 [<span class="keyword">ASC</span>|<span class="keyword">DESC</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>GROUP BY  <strong> 分组查询 </strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GROUP BY 属性名 [HAVING 条件表达式][WITH ROLLUP]</span><br></pre></td></tr></table></figure>
+<ol>
+<li>单独使用(毫无意义)，一般与聚合函数一起使用；</li>
+<li>与 GROUP_CONCAT()函数一起使用；</li>
+<li>与 HAVING 一起使用(限制输出的结果)；</li>
+<li>与 WITH ROLLUP 一起使用(最后加入一个总和行)；</li>
+</ol>
+</li>
+<li><p>LIMIT  <strong> 分页查询 </strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段 <span class="number">1</span>，字段 <span class="number">2.</span>..FROM 表名 <span class="keyword">LIMIT</span> 初始位置，记录数；</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="聚合函数查询"><a href="#聚合函数查询" class="headerlink" title="聚合函数查询"></a>聚合函数查询</h3><p>聚合函数是汇总数据的函数。主要有求记录条数、求和、求平均值、求最值几个方法。<br>聚合函数一般使用形式如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 函数(字段) [<span class="keyword">AS</span> 别名] <span class="keyword">FROM</span> 表；</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><p>COUNT()函数:统计记录的条数<br>与 GOUPE BY 关键字一起使用，表示对每个分组元素的统计信息：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> stuName,<span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> t_grade <span class="keyword">GROUP</span> <span class="keyword">BY</span> stuName;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SUN()函数：求和函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> stuName, <span class="keyword">SUM</span>(score) <span class="keyword">AS</span> total <span class="keyword">FROM</span> t_grade <span class="keyword">WHERE</span> stuName = <span class="string">'张三'</span>;</span><br><span class="line"><span class="keyword">SELECT</span> stuName, <span class="keyword">SUM</span>(score) <span class="keyword">AS</span> total <span class="keyword">FROM</span> t_grade <span class="keyword">GROUP</span> <span class="keyword">BY</span> stuName;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AVG()函数:求平均值的函数；</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> stuName, <span class="keyword">AVG</span>(score) <span class="keyword">AS</span> total <span class="keyword">FROM</span> t_grade <span class="keyword">WHERE</span> stuName = <span class="string">'张三'</span>;</span><br><span class="line"><span class="keyword">SELECT</span> stuName, <span class="keyword">AVG</span>(score) <span class="keyword">AS</span> total <span class="keyword">FROM</span> t_grade <span class="keyword">GROUP</span> <span class="keyword">BY</span> stuName;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MAX()函数:求最大值的函数</p>
+</li>
+<li>MIN()函数:求最小值的函数</li>
+</ol>
+<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><p>连接查询是将两个或两个以上的表按照某个条件连接起来，从中选取需要的数据。</p>
+<ul>
+<li>内连接获取两个表中字段匹配关系的记录，典型用法是这样的：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_book, t_booktype <span class="keyword">WHERE</span> t_book.<span class="string">`bookTypeId`</span> = t_booktype.<span class="string">`id`</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此时，显示左表中bookTypeId和右表的id相同的部分。</p>
+<ul>
+<li><p>但我们需要更多的功能，比如右表中即使没有相同的一项，也要列出来，那么就需要外连接。外连接分为左连接和右连接。分别是对左表取并集和对右表取并集。<br>这是左连接，如果右表没有对应的id，那么就用null代替。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_book <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> t_booktype <span class="keyword">ON</span> t_book.<span class="string">`bookTypeId`</span> = t_booktype.<span class="string">`id`</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多条件连接查询就是在内连接的基础上，增加筛选语句，使用AND并列查询。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> tb.bookName, tb.price, tb1.<span class="string">`bookTypeName`</span> <span class="keyword">FROM</span> t_book tb, t_booktype tb1 <span class="keyword">WHERE</span> tb.<span class="string">`bookTypeId`</span> = tb1.<span class="string">`id`</span> <span class="keyword">AND</span> tb.<span class="string">`price`</span> &gt; <span class="number">80</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p>子查询是一个复查询，即将一个语句的运算结果带入另一个语句的查询之中。</p>
+<ol>
+<li><p>In关键字:范围性的子查询，一个查询语句的条件可能落在另一个 SELECT 语句的查询结果中。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_book <span class="keyword">WHERE</span> bookTypeId <span class="keyword">IN</span>( <span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> t_booktype );</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带比较运算符的子查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_pricelevel <span class="keyword">WHERE</span> price &lt;= (<span class="keyword">SELECT</span> price <span class="keyword">FROM</span> t_pricelevel <span class="keyword">WHERE</span> priceLevel = <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exists子查询：判断性的子查询，若子查询查到记录，则进行外层查询，否则不执行外层查询。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_book <span class="keyword">WHERE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_booktype);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>any子查询：表示满足任一条件即可查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_pricelevel <span class="keyword">WHERE</span> price &gt;= <span class="keyword">ANY</span> (<span class="keyword">SELECT</span> price <span class="keyword">FROM</span> t_pricelevel);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>all子查询：表示满足所有的条件才可查询</p>
+</li>
+</ol>
+<h3 id="合并查询结果"><a href="#合并查询结果" class="headerlink" title="合并查询结果"></a>合并查询结果</h3><p>将两个查询结果放在一起<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> t_book <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> t_booktype;</span><br></pre></td></tr></table></figure></p>
+<p>注意，UNION会自动去重，而UNION ALL则不会去重，将所有结果都显示。</p>
+<h3 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h3><p>在查询的时候对表或字段起一个别名，从而可以直观方便的使用<br>为表取别名：    表名 表的别名<br>为字段取别名：  属性名 [AS] 别名</p>
+<h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><p>在上一节学习了查询的相关操作，本次继续学习增删改的操作。</p>
+<h3 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h3><ol>
+<li><p>给表的所有字段插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 <span class="keyword">VALUES</span>(值 <span class="number">1</span>，值 <span class="number">2</span>，值 <span class="number">3</span>，...，值 n);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>给表的指定字段插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名(属性 <span class="number">1</span>，属性 <span class="number">2</span>，...，属性 n) <span class="keyword">VALUES</span>(值 <span class="number">1</span>，值 <span class="number">2</span>，值 <span class="number">3</span>，...，值 n);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同时插入多条记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 [(属性列表)] <span class="keyword">VALUES</span>(取值列表 <span class="number">1</span>)，(取值列表 <span class="number">2</span>)...;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> 表名 </span><br><span class="line"><span class="keyword">SET</span> 属性名 <span class="number">1</span>=取值 <span class="number">1</span>，属性名 <span class="number">2</span>=取值 <span class="number">2</span>，...，</span><br><span class="line">属性名 n=取值 n</span><br><span class="line"><span class="keyword">WHERE</span> 条件表达式；</span><br></pre></td></tr></table></figure>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> 表名 [<span class="keyword">WHERE</span> 条件表达式]</span><br></pre></td></tr></table></figure>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>索引是数据库表中一列或者多列组合而成，其作用是提高对表中数据的查询速度，类似于图书中的目录，方便快速定位，寻找指定的内容。</p>
+<h3 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h3><ol>
+<li>普通索引<br>这类索引可以创建在任何数据类型中；</li>
+<li>唯一性索引<br>使用 UNIQUE 参数可以设置，在创建唯一性索引时，限制该索引的值必须是唯一的；</li>
+<li>全文索引<br>使用 FULLTEXT 参数可以设置，全文索引只能创建在 CHAR，VARCHAR，TEXT 类型的字段上。主要作用就是提高查询较大字符串类型的速度；只有 MyISAM 引擎支持该索引，Mysql 默认引擎不支持；</li>
+<li>单列索引<br>在表中可以给单个字段创建索引，单列索引可以是普通索引，也可以是唯一性索引，还可以是全文索引；</li>
+<li>多列索引<br>多列索引是在表的多个字段上创建一个索引；</li>
+<li>空间索引<br>使用 SPATIAL 参数可以设置空间索引。空间索引只能建立在空间数据类型上，这样可以提高系统获取空间数<br>据的效率；只有 MyISAM 引擎支持该索引，Mysql 默认引擎不支持；</li>
+</ol>
+<h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><ol>
+<li><p>创建表的时候创建索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> 表名 (属性名 数据类型 [完整性约束条件],</span><br><span class="line">	属性名 数据类型 [完整性约束条件],</span><br><span class="line">	....</span><br><span class="line">	属性名 数据类型</span><br><span class="line">	[<span class="keyword">UNIQUE</span> | FULLTEXT | SPATIAL ] <span class="keyword">INDEX</span>| <span class="keyword">KEY</span></span><br><span class="line">	[别名]  (属性名 <span class="number">1</span> [(长度)] [<span class="keyword">ASC</span> | <span class="keyword">DESC</span>])</span><br><span class="line">	);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在已经存在的表上创建索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [ <span class="keyword">UNIQUE</span> | FULLTEXT | SPATIAL ] <span class="keyword">INDEX</span> 索引名 <span class="keyword">ON</span> 表名 (属性名 [(长度)] [ <span class="keyword">ASC</span> | <span class="keyword">DESC</span>])；</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>5.3 用 ALTER TABLE 语句来创建索引<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">ADD</span> [ <span class="keyword">UNIQUE</span> | FULLTEXT | SPATIAL ] <span class="keyword">INDEX</span> 索引名 (属性名 [(长度)] [ <span class="keyword">ASC</span> | <span class="keyword">DESC</span>])</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> 索引名 <span class="keyword">ON</span> 表名 ；</span><br></pre></td></tr></table></figure>
+<h3 id="更改索引"><a href="#更改索引" class="headerlink" title="更改索引"></a>更改索引</h3><p>即删除+创建：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">`db_book`</span>.<span class="string">`t_user4`</span> <span class="keyword">DROP</span> <span class="keyword">INDEX</span> <span class="string">`index_userName_password`</span>, <span class="keyword">ADD</span> <span class="keyword">INDEX</span> <span class="string">`index_userName_password`</span> (<span class="string">`userName`</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>视图是一种虚拟的表，是从数据库中一个或者多个表中导出来的表。数据库中只存放了视图的定义，而并没有存放视图中的数据，这些数据存放在原来的表中。使用视图查询数据时，数据库系统会从原来的表中取出对应的数据。<br>视图使操作简便化，增加数据的安全性以及提高表的逻辑独立性。</p>
+<h3 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [ ALGORITHM =&#123; UNDEFIEND | <span class="keyword">MERGE</span> | TEMPTABLE &#125;]</span><br><span class="line">	<span class="keyword">VIEW</span> 视图名 [ ( 属性清单) ]</span><br><span class="line">	<span class="keyword">AS</span> <span class="keyword">SELECT</span> 语句</span><br><span class="line">	[ <span class="keyword">WITH</span> [ <span class="keyword">CASCADED</span> | <span class="keyword">LOCAL</span> ] <span class="keyword">CHECK</span> <span class="keyword">OPTION</span> ]；</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ALGORITHM 是可选参数，表示视图选择的算法；</li>
+<li>“视图名”参数表示要创建的视图的名称；</li>
+<li>“属性清单”是可选参数，其指定了视图中各种属性的名词，默认情况下与 SELECT 语句中查询的属性相同；</li>
+<li>SELECT 语句参数是一个完整的查询语句，标识从某个表查出某些满足条件的记录，将这些记录导入视图中；</li>
+<li>WITH CHECK OPTION 是可选参数，表似乎更新视图时要保证在该视图的权限范围之内；</li>
+</ul>
+<p>ALGORITHM 包括 3 个选项 UNDEFINED、MERGE 和 TEMPTABLE。其中，UNDEFINED 选项表示 MySQL 将自动选择所要使用的算法；MERGE 选项表示将使用视图的语句与视图定义合并起来，使得视图定义的某一部分取代语句的对应部分；TEMPTABLE 选项表示将视图的结果存入临时表，然后使用临时表执行语句；CASCADED是可选参数，表示更新视图时要满足所有相关视图和表的条件，该参数为默认值；LOCAL 表示更新视图时，要满足该视图本身的定义条件即可。</p>
+<h3 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h3><ol>
+<li>DESCRIBE 语句查看视图基本信息</li>
+<li>SHOW TABLE STATUS LIKE ‘视图名’ 语句查看视图基本信息</li>
+<li>SHOW CREATE VIEW 视图名 语句查看视图详细信息</li>
+<li>在 views 表中查看视图详细信息</li>
+</ol>
+<h3 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h3><p>修改视图实际上就是修改视图中显示的字段</p>
+<ol>
+<li><p>CREATE OR REPLACE VIEW 语句创建或修改视图</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> [ ALGORITHM =&#123; UNDEFINED | <span class="keyword">MERGE</span> | TEMPTABLE &#125;]</span><br><span class="line"><span class="keyword">VIEW</span> 视图名 [( 属性清单 )]</span><br><span class="line"><span class="keyword">AS</span> <span class="keyword">SELECT</span> 语句</span><br><span class="line">[ <span class="keyword">WITH</span> [ <span class="keyword">CASCADED</span> | <span class="keyword">LOCAL</span> ] <span class="keyword">CHECK</span> <span class="keyword">OPTION</span> ]；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ALTER 语句修改视图</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> [ ALGORITHM =&#123; UNDEFINED | <span class="keyword">MERGE</span> | TEMPTABLE &#125;]</span><br><span class="line"><span class="keyword">VIEW</span> 视图名 [( 属性清单 )]</span><br><span class="line"><span class="keyword">AS</span> <span class="keyword">SELECT</span> 语句</span><br><span class="line">[ <span class="keyword">WITH</span> [ <span class="keyword">CASCADED</span> | <span class="keyword">LOCAL</span> ] <span class="keyword">CHECK</span> <span class="keyword">OPTION</span> ]；</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="更改视图"><a href="#更改视图" class="headerlink" title="更改视图"></a>更改视图</h3><p>更新视图是指通过视图来插入（INSERT） 、更新（UPDATE）和删除（DELETE）表中的数据。因为视图是一个虚拟的表，其中没有数据。通过视图更新时，都是转换基本表来更新，也就是在原表中进行更改。更新视图时，只能更新权限范围内的数据。超出了范围，就不能更新。<br>增删改的操作同对普通表的操作类似。</p>
+<h3 id="删除视图"><a href="#删除视图" class="headerlink" title="删除视图"></a>删除视图</h3><p>删除视图是指删除数据库中已存在的视图。删除视图时，只能删除视图的定义，不会删除数据；<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">VIEW</span> [ <span class="keyword">IF</span> <span class="keyword">EXISTS</span> ] 视图名列表 [ RESTRICT | <span class="keyword">CASCADE</span> ]</span><br></pre></td></tr></table></figure></p>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><p>触发器（TRIGGER）是由事件来触发某个操作。这些事件包括 INSERT 语句、UPDATE 语句和 DELETE 语句。<br>当数据库系统执行这些事件时，就会激活触发器执行相应的操作。</p>
+<h3 id="创建与使用触发器"><a href="#创建与使用触发器" class="headerlink" title="创建与使用触发器"></a>创建与使用触发器</h3><ol>
+<li>创建只有一个执行语句的触发器<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> 触发器名 <span class="keyword">BEFORE</span> | <span class="keyword">AFTER</span> 触发事件 <span class="keyword">ON</span> 表名 <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> 执行语句</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>典型用法是这样的：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> trig_bookType <span class="keyword">AFTER</span> <span class="keyword">INSERT</span></span><br><span class="line">	<span class="keyword">ON</span> t_book <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></span><br><span class="line">	<span class="keyword">UPDATE</span> t_bookType <span class="keyword">SET</span> bookNum=bookNum+<span class="number">1</span> <span class="keyword">WHERE</span> new.bookTypeId=t_booktype.<span class="string">`id`</span>;</span><br></pre></td></tr></table></figure></p>
+<p>其中需要注意的是，new表示过程对象，就是指代正在插入的这条语句。相应的，old表示正在删除的对象。</p>
+<ol>
+<li>创建有多个执行语句的触发器<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> 触发器名 <span class="keyword">BEFORE</span> | <span class="keyword">AFTER</span> 触发事件 </span><br><span class="line"><span class="keyword">ON</span> 表名 <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">执行语句列表</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">TRIGGERS</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="删除触发器"><a href="#删除触发器" class="headerlink" title="删除触发器"></a>删除触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> 触发器名;</span><br></pre></td></tr></table></figure>
+<h2 id="MySQL相关函数"><a href="#MySQL相关函数" class="headerlink" title="MySQL相关函数"></a>MySQL相关函数</h2><p>有很多的内置具体的用法可以在手册中详细查询。这里举几个典型的例子：</p>
+<h3 id="日期和时间函数"><a href="#日期和时间函数" class="headerlink" title="日期和时间函数"></a>日期和时间函数</h3><ul>
+<li>NOW() 当前时间</li>
+<li>CURDATE() 返回当前日期；</li>
+<li>CURTIME() 返回当前时间；</li>
+<li>MONTH(d) 返回日期 d 中的月份值，范围是 1~12</li>
+</ul>
+<h3 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h3><ul>
+<li>CHAR_LENGTH(s) 计算字符串 s 的字符数；</li>
+<li>UPPER(s) 把所有字母变成大写字母；</li>
+<li>LOWER(s) 把所有字母变成小写字母；</li>
+</ul>
+<h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><ul>
+<li>ABS(x) 求绝对值</li>
+<li>SQRT(x) 求平方根</li>
+<li>MOD(x,y) 求余</li>
+</ul>
+<h3 id="加密函数"><a href="#加密函数" class="headerlink" title="加密函数"></a>加密函数</h3><ul>
+<li>PASSWORD(str) 一般对用户的密码加密 不可逆</li>
+<li>MD5(str) 普通加密 不可逆</li>
+<li>ENCODE(str，pswd_str) 加密函数，结果是一个二进制数，必须使用 BLOB 类型的字段来保存它；</li>
+<li>DECODE(crypt_str，pswd_str) 解密函数；</li>
+</ul>
+<h2 id="存储过程和函数"><a href="#存储过程和函数" class="headerlink" title="存储过程和函数"></a>存储过程和函数</h2><p>存储过程和函数是在数据库中定义一些 SQL 语句的集合，然后直接调用这些存储过程和函数来执行已经定义好的 SQL 语句。 存储过程和函数可以避免开发人员重复的编写相同的 SQL 语句。 而且，存储过程和函数是在 MySQL 服务器中存储和执行的，可以减少客户端和服务器端的数据传输。<br>总而言之，存储过程类似于方法的封装，存储过程简单、安全、高性能。</p>
+<h3 id="创建存储过程"><a href="#创建存储过程" class="headerlink" title="创建存储过程"></a>创建存储过程</h3><p>创建存储过程的操作是这样：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> sp_name([proc_parameter[,...]])</span><br><span class="line">	[characteristic...] routine_body</span><br></pre></td></tr></table></figure></p>
+<p>其中：</p>
+<ul>
+<li>sp_name 参数是存储过程的名称；</li>
+<li>proc_parameter 表示存储过程的参数列表；</li>
+<li>characteristic 参数指定存储过程的特性；</li>
+<li>routine_body 参数是 SQL 代码的内容，可以用 BEGIN…END 来标志 SQL 代码的开始和结束。</li>
+<li>proc_parameter 中的每个参数由 3 部分组成。这 3 部分分别是输入输出类型、参数名称和参数类型。<br>[ IN | OUT | INOUT ] param_name type<br>其中，IN 表示输入参数；OUT 表示输出参数；INOUT 表示既可以是输入，也可以是输出；param_name 参数是<br>存储过程的参数名称；type 参数指定存储过程的参数类型，该类型可以是 MySQL 数据库的任意数据类型；</li>
+<li>Characteristic 参数有多个取值。其取值说明如下：</li>
+</ul>
+<h3 id="创建存储函数"><a href="#创建存储函数" class="headerlink" title="创建存储函数"></a>创建存储函数</h3><p>存储函数和存储过程非常相似，主要区别是存储函数更偏向函数<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> sp_name ( [func_parameter[,...]] )</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="keyword">type</span></span><br><span class="line">[ characteristic... ] routine_body</span><br></pre></td></tr></table></figure></p>
+<p>其中：</p>
+<ul>
+<li>sp_name 参数是存储函数的名称；func_parameter 表示存储函数的参数列表；</li>
+<li>RETURNS type 指定返回值的类型；</li>
+<li>characteristic 参数指定存储过程的特性，该参数的取值与存储过程中的取值是一样的；</li>
+<li>routine_body 参数是 SQL 代码的内容，可以用 BEGIN…END 来标志 SQL 代码的开始和结束；</li>
+<li>func_parameter 可以由多个参数组成，其中每个参数由参数名称和参数类型组成，其形式如下：</li>
+<li>param_name type 其中，param_name 参数是存储函数的参数名称；type 参数指定存储函数的参数类型，该类型可以是 MySQL 数据库的任意数据类型；</li>
+</ul>
+<h3 id="变量的使用"><a href="#变量的使用" class="headerlink" title="变量的使用"></a>变量的使用</h3><p>变量是在存储过程和函数中定义的中间变量。注意，只有在存储过程和存储函数中存在的中间变量才有意义，变量不能单独的存在。<br>定义变量<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> var_name [,...] <span class="keyword">type</span> [ <span class="keyword">DEFAULT</span> <span class="keyword">value</span> ]</span><br></pre></td></tr></table></figure></p>
+<p>赋值：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> var_name = expr [,var_name=expr] ...</span><br><span class="line"><span class="keyword">SELECT</span> col_name[,...] <span class="keyword">INTO</span> var_name[,...] <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> condition</span><br></pre></td></tr></table></figure></p>
+<h3 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h3><p>查询语句可能查询出多条记录，在存储过程和函数中使用游标来逐条读取查询结果集中的记录。<br>游标的使用包括声明游标、打开游标、使用游标和关闭游标。游标必须声明在处理程序之前，并且声明在变量和条件之后。</p>
+<ul>
+<li><p>声明游标</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> cursor_name <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> select_statement ;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开游标</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPEN cursor_name;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用游标</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FETCH cursor_name INTO var_name [,var_name ... ]；</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>关闭游标<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CLOSE cursor_name；</span><br></pre></td></tr></table></figure></p>
+<h3 id="流程控制的使用"><a href="#流程控制的使用" class="headerlink" title="流程控制的使用"></a>流程控制的使用</h3><p>存储过程和函数中可以使用流程控制来控制语句的执行。MySQL 中可以使用 IF 语句、CASE 语句、LOOP 语句、LEAVE 语句、ITERATE 语句、REPEAT 语句和 WHILE 语句来进行流程控制。这里就不再展开，详细的用法可以在手册进行查询。</p>
+<h3 id="调用存储过程和函数"><a href="#调用存储过程和函数" class="headerlink" title="调用存储过程和函数"></a>调用存储过程和函数</h3><ul>
+<li><p>调用存储过程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CALL</span> sp_name( [parameter[,...]] )</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用存储函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fun_name( [parameter[,...]] )</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="查看存储过程和函数"><a href="#查看存储过程和函数" class="headerlink" title="查看存储过程和函数"></a>查看存储过程和函数</h3><ul>
+<li><p>SHOW STATUS 语句查看存储过程和函数的状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> &#123; <span class="keyword">PROCEDURE</span> | <span class="keyword">FUNCTION</span> &#125; <span class="keyword">STATUS</span> [ <span class="keyword">LIKE</span> ‘pattern’ ] ;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SHOW CREATE 语句查看存储过程的函数的定义</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> &#123; <span class="keyword">PROCEDURE</span> | <span class="keyword">FUNCTION</span> &#125; sp_name ;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="修改存储过程和函数"><a href="#修改存储过程和函数" class="headerlink" title="修改存储过程和函数"></a>修改存储过程和函数</h3><p>一般来说修改比较麻烦，不如重新建立函数关系。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> &#123; <span class="keyword">PROCEDURE</span> | <span class="keyword">FUNCTION</span> &#125; sp_name [ characteristic ... ]</span><br><span class="line">characteristic :</span><br><span class="line">&#123; CONTAINS <span class="keyword">SQL</span> &#125; <span class="keyword">NO</span> <span class="keyword">SQL</span> | <span class="keyword">READS</span> <span class="keyword">SQL</span> <span class="keyword">DATA</span> | MODIFIES <span class="keyword">SQL</span> <span class="keyword">DATA</span> &#125;</span><br><span class="line">| <span class="keyword">SQL</span> <span class="keyword">SECURITY</span> &#123; DEFINER | INVOKER &#125;</span><br><span class="line">| <span class="keyword">COMMENT</span> ‘<span class="keyword">string</span>’</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>sp_name 参数表示存储过程或函数的名称；</li>
+<li>characteristic 参数指定函数的特性。</li>
+<li>CONTAINS SQL 表示子程序包含 SQL 语句，但不包含读或写数据的语句；</li>
+<li>NO SQL 表示子程序中不包含 SQL 语句；</li>
+<li>READS SQL DATA表 示 子 程 序 中 包 含 数 据 的 语 句 ；</li>
+<li>MODIFIES SQL DATA 表 示 子 程 序 中 包 含 写 数 据 的 语 句 。</li>
+<li>SQLSECURITY{ DEFINER | INVODER } 指明谁有权限来执行。</li>
+<li>DEFINER 表示只有定义者自己才能够执行；</li>
+<li>INVODER 表示调用者可以执行。</li>
+<li>COMMENT ‘string’ 是注释信息。</li>
+</ul>
+<h3 id="删除存储过程和函数"><a href="#删除存储过程和函数" class="headerlink" title="删除存储过程和函数"></a>删除存储过程和函数</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> &#123;<span class="keyword">PROCEDURE</span> | <span class="keyword">FUNCTION</span> &#125; sp_name ;</span><br></pre></td></tr></table></figure>
+<h2 id="数据备份与还原"><a href="#数据备份与还原" class="headerlink" title="数据备份与还原"></a>数据备份与还原</h2><p>备份数据可以保证数据库中数据的安全，数据库管理员需要定期的进行数据库备份；</p>
+<h3 id="数据备份"><a href="#数据备份" class="headerlink" title="数据备份"></a>数据备份</h3><p>在命令行中，执行这个语句：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u username -p dbname table1 table2 ... &gt; BackupName.sql</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>dbname 参数表示数据库的名称；</li>
+<li>table1 和 table2 参数表示表的名称，没有该参数时将备份整个数据库；</li>
+<li>BackupName.sql 参数表示备份文件的名称，文件名前面可以加上一个绝对路径。通常以 sql 作为后缀。</li>
+</ul>
+<h3 id="数据还原"><a href="#数据还原" class="headerlink" title="数据还原"></a>数据还原</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Mysql -u root -p [dbname] &lt; backup.sql</span><br></pre></td></tr></table></figure>
+<p>dbname 参数表示数据库名称。该参数是可选参数，可以指定数据库名，也可以不指定。指定数据库名时，表示还原该数据库下的表。不指定数据库名时，表示还原特定的一个数据库。而备份文件中有创建数据库的语句。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/OA系统.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OA系统</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="数据库相关操作" data-title="数据库相关操作" data-url="http://Minwell1992.github.io/数据库相关操作.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"minwell1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Minwell
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

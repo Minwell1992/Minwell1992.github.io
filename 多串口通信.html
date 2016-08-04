@@ -6,16 +6,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>多串口通信 | Minwell</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Minwell | java | Minwell1992">
+  <meta name="description" content="本文来介绍实验室项目中的项目，重点介绍所编写的多串口程序。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="多串口通信">
 <meta property="og:url" content="http://Minwell1992.github.io/多串口通信.html">
 <meta property="og:site_name" content="Minwell">
-<meta property="og:description" content="Minwell | java | Minwell1992">
-<meta property="og:updated_time" content="2016-07-11T03:02:30.450Z">
+<meta property="og:description" content="本文来介绍实验室项目中的项目，重点介绍所编写的多串口程序。">
+<meta property="og:image" content="http://oa7i3n6b6.bkt.clouddn.com/image/diagram.jpg">
+<meta property="og:updated_time" content="2016-07-12T15:21:26.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多串口通信">
-<meta name="twitter:description" content="Minwell | java | Minwell1992">
+<meta name="twitter:description" content="本文来介绍实验室项目中的项目，重点介绍所编写的多串口程序。">
+<meta name="twitter:image" content="http://oa7i3n6b6.bkt.clouddn.com/image/diagram.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Minwell" type="application/atom+xml">
   
@@ -33,7 +35,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="https://avatars3.githubusercontent.com/u/12514772?v=3&amp;s=460" class="js-avatar">
+			<img lazy-src="http://oa7i3n6b6.bkt.clouddn.com/image/me.jpg" class="js-avatar">
 			
 		</a>
 
@@ -101,7 +103,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java并发编程/" style="font-size: 20px;">Java并发编程</a> <a href="/tags/个人项目/" style="font-size: 10px;">个人项目</a> <a href="/tags/串口通信/" style="font-size: 10px;">串口通信</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 13.33px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 16.67px;">设计模式</a>
+						<a href="/tags/Java并发编程/" style="font-size: 20px;">Java并发编程</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/个人项目/" style="font-size: 13.33px;">个人项目</a> <a href="/tags/串口通信/" style="font-size: 10px;">串口通信</a> <a href="/tags/容器/" style="font-size: 20px;">容器</a> <a href="/tags/杂谈/" style="font-size: 13.33px;">杂谈</a> <a href="/tags/设计模式/" style="font-size: 16.67px;">设计模式</a>
 					</div>
 				</section>
 				
@@ -125,7 +127,7 @@
 		<header id="header" class="inner">
 			<div class="profilepic">
 			
-				<img lazy-src="https://avatars3.githubusercontent.com/u/12514772?v=3&amp;s=460" class="js-avatar">
+				<img lazy-src="http://oa7i3n6b6.bkt.clouddn.com/image/me.jpg" class="js-avatar">
 			
 			</div>
 			<hgroup>
@@ -198,7 +200,21 @@
       
         <!-- Table of Contents -->
         
-        
+        <p>本文来介绍实验室项目中的项目，重点介绍所编写的多串口程序。</p>
+<a id="more"></a>
+<h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><p>在我们的自然基金项目中，我主要负责对非晶丝的阻抗进行研究。非晶丝制备过程主要是由合金丝高温淬火，在晶体还没有成形的时候冷却，从而内部形成非晶结构。因此，具有一般晶体不具备的特性，其中最重要的就是GMI。经过大量前任总结，得出结论：非晶丝阻抗模型是竹节状的。此外，非晶丝具有对角阻抗和非对角阻抗的性质，内部原理在此不做展开。</p>
+<h2 id="总体框架"><a href="#总体框架" class="headerlink" title="总体框架"></a>总体框架</h2><p>测量非晶丝的阻抗大致流程是这样的：<br><img src="http://oa7i3n6b6.bkt.clouddn.com/image/diagram.jpg" alt="测量非对角阻抗实验系统框图"><br>在这个基础之上又增加了转台部分，用来测量不同方向磁场对阻抗的影响。<br>总而言之，信号源产生对非晶丝施加交流激励，电流源产生交变直流磁场，单片机控制ADC采集数据，而上位机通过串口控制这三个部分。实验要求分别控制这几个变量，来研究不同条件对阻抗的影响。下面来分别介绍主要的部分的作用以及其需要注意的地方：</p>
+<ul>
+<li>信号源使用程控信号源，需要注意的是每条语句后都要加上一个0x10。</li>
+<li>电流源使用，产生施加于亥姆霍兹线圈的电流。由于需要产生反向电流，而电流源不能输出负电流，所以外接一个继电器，通过单片机控制取得将电流取反。</li>
+<li>单片机使用STM32，主要作用一个是控制继电器；另一个是控制ADC采样，并将采样数据回传上位机。</li>
+<li>转台直接连到上位机，编程决定其转动的速度。</li>
+<li>中控电路主要负责放大、整流，以及对AD8302芯片控制。此外，还放置继电器，供其他部分使用。</li>
+<li>上位机负责通过串口来控制其他部分。</li>
+</ul>
+<h2 id="信号源指令"><a href="#信号源指令" class="headerlink" title="信号源指令"></a>信号源指令</h2><h2 id="电流源指令"><a href="#电流源指令" class="headerlink" title="电流源指令"></a>电流源指令</h2><h2 id="单片机指令"><a href="#单片机指令" class="headerlink" title="单片机指令"></a>单片机指令</h2><h2 id="转台指令"><a href="#转台指令" class="headerlink" title="转台指令"></a>转台指令</h2><h2 id="上位机串口程序"><a href="#上位机串口程序" class="headerlink" title="上位机串口程序"></a>上位机串口程序</h2><p>我接手这个实验之前，上一届的师兄是使用MFC来编写上位机控制程序的。但MFC编写的程序非常的繁杂，兼容性很差，做出来的界面也是非常的难看。因此，用了一段时间后我就萌生了重写一份的想法。</p>
+<h3 id="关于RxTx"><a href="#关于RxTx" class="headerlink" title="关于RxTx"></a>关于RxTx</h3><p>谷歌了一下，最适合java串口编程的库就是RxTx了。</p>
+
       
     </div>
     
@@ -206,6 +222,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/OA系统.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          OA系统
+        
+      </div>
+    </a>
   
   
     <a href="/Java多线程编程-五.html" id="article-nav-older" class="article-nav-link-wrap">
